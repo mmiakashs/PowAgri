@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Argora</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Navigation drawer item -->
+    <string name="nav_item_home">Home</string>
+    <string name="nav_item_price">Price</string>
+    <string name="nav_item_expenses">Expenses</string>
+    <string name="nav_item_state">State</string>
+    <string name="title_activity_crop_state_year_analysis">CropStateYearAnalysisActivity</string>
+
+</resources>

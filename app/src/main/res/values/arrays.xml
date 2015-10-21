@@ -1,0 +1,109 @@
+<resources>
+    <string-array name="state_name">
+        <item>ALABAMA</item>
+        <item>ALASKA</item>
+        <item>ARIZONA</item>
+        <item>CALIFORNIA</item>
+    </string-array>
+
+    <string-array name="crop_name">
+        <item>BARLEY</item>
+        <item>BEANS</item>
+        <item>CANOLA</item>
+        <item>CORN</item>
+        <item>COTTON</item>
+        <item>FLAXSEED</item>
+        <item>HAY</item>
+        <item>HAYLAGE</item>
+        <item>HOPS</item>
+        <item>LENTILS</item>
+        <item>MAPLE%20SYRUP</item>
+        <item>MILLET</item>
+        <item>MINT</item>
+        <item>MUSTARD</item>
+        <item>OATS</item>
+        <item>PEANUTS</item>
+        <item>PEAS</item>
+        <item>RAPESEED</item>
+        <item>RICE</item>
+        <item>RYE</item>
+        <item>SAFFLOWER</item>
+        <item>SORGHUM</item>
+        <item>SOYBEANS</item>
+        <item>SUGARBEETS</item>
+        <item>SUGARCANE</item>
+        <item>SUNFLOWER</item>
+        <item>TOBACCO</item>
+        <item>WHEAT</item>
+    </string-array>
+
+    <string-array name="fruit">
+        <item>ALMONDS</item>
+        <item>APPLES</item>
+        <item>APRICOTS</item>
+        <item>AVOCADOS</item>
+        <item>BANANAS</item>
+        <item>BLACKBERRIES</item>
+        <item>BLUEBERRIES</item>
+        <item>BOYSENBERRIES</item>
+        <item>CHERRIES</item>
+        <item>COFFEE</item>
+        <item>CRANBERRIES</item>
+        <item>DATES</item>
+        <item>FIGS</item>
+        <item>GRAPEFRUIT</item>
+        <item>GRAPES</item>
+        <item>GUAVAS</item>
+        <item>HAZELNUTS</item>
+        <item>KIWIFRUIT</item>
+        <item>LEMONS</item>
+        <item>MACADAMIAS</item>
+        <item>NECTARINES</item>
+        <item>OLIVES</item>
+        <item>ORANGES</item>
+        <item>PAPAYAS</item>
+        <item>PEACHES</item>
+        <item>PEARS</item>
+        <item>PISTACHIOS</item>
+        <item>PLUMS</item>
+        <item>PRUNES</item>
+        <item>RASPBERRIES</item>
+        <item>STRAWBERRIES</item>
+        <item>TANGELOS</item>
+        <item>TANGERINES</item>
+        <item>WALNUTS</item>
+    </string-array>
+
+    <string-array name="vegetable">
+        <item>ARTICHOKES</item>
+        <item>ASPARAGUS</item>
+        <item>BEANS</item>
+        <item>BEETS</item>
+        <item>BROCCOLI</item>
+        <item>BRUSSELS%20SPROUTS</item>
+        <item>CABBAGE</item>
+        <item>CARROTS</item>
+        <item>CAULIFLOWER</item>
+        <item>CELERY</item>
+        <item>CUCUMBERS</item>
+        <item>EGGPLANT</item>
+        <item>GARLIC</item>
+        <item>GINGER%20ROOT</item>
+        <item>GREENS</item>
+        <item>LETTUCE</item>
+        <item>MELONS</item>
+        <item>OKRA</item>
+        <item>ONIONS</item>
+        <item>PEAS</item>
+        <item>PEPPERS</item>
+        <item>POTATOES</item>
+        <item>PUMPKINS</item>
+        <item>RADISHES</item>
+        <item>SPINACH</item>
+        <item>SQUASH</item>
+        <item>SWEET%20CORN</item>
+        <item>SWEET%20POTATOES</item>
+        <item>TOMATOES</item>
+    </string-array>
+
+</resources>
