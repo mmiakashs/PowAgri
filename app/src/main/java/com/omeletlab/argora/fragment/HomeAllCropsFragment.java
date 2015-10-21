@@ -50,6 +50,11 @@ public class HomeAllCropsFragment extends Fragment {
     public RVAdapter rvAdapter;
     private ProgressDialog pDialog;
 
+    private String stateName="";
+    private String year="";
+    private String cropName="";
+    private String analysisType="";
+
     public HomeAllCropsFragment() {
     }
 
@@ -57,6 +62,11 @@ public class HomeAllCropsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.crop_recycle_view, container, false);
+
+        cropName = getArguments().getString(GlobalConstant.TAG_CROP_NAME);
+        stateName = getArguments().getString(GlobalConstant.TAG_STATE_NAME);
+        year = getArguments().getString(GlobalConstant.TAG_YEAR);
+        analysisType = getArguments().getString(GlobalConstant.TAG_ANALYSIS_TYPE);
 
         Context context = getActivity();
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
@@ -85,21 +95,33 @@ public class HomeAllCropsFragment extends Fragment {
 
         List<NameValuePair> params = new ArrayList<>();
         params.add(new NameValuePair(GlobalConstant.TAG_agg_level_desc, "STATE"));
-        params.add(new NameValuePair(GlobalConstant.TAG_year, "2014"));
+        if(!TextUtils.isEmpty(stateName)) {
+            params.add(new NameValuePair(GlobalConstant.TAG_state_name+"__or", stateName));
+        }
         params.add(new NameValuePair("class_desc", "ALL CLASSES"));
         params.add(new NameValuePair(GlobalConstant.TAG_source_desc, "SURVEY"));
         params.add(new NameValuePair(GlobalConstant.TAG_sector_desc, "CROPS"));
         params.add(new NameValuePair(GlobalConstant.TAG_group_desc, "FIELD%20CROPS"));
-        params.add(new NameValuePair(GlobalConstant.TAG_statisticcat_desc, "AREA%20HARVESTED"));
+        params.add(new NameValuePair(GlobalConstant.TAG_statisticcat_desc, analysisType));
         params.add(new NameValuePair(GlobalConstant.TAG_reference_period_desc, "YEAR"));
 
-        String[] cropNameArray = getResources().getStringArray(R.array.crop_name);
-        Log.d("all crop name",""+cropNameArray.length);
-        for(int i=0;i<cropNameArray.length;i++){
-            params.add(new NameValuePair(GlobalConstant.TAG_commodity_desc + "__or", cropNameArray[i]));
+        if(!TextUtils.isEmpty(cropName)) {
+            params.add(new NameValuePair(GlobalConstant.TAG_commodity_desc+"__or", cropName));
         }
-        for(int i=2015;i>=1995;i--){
-            params.add(new NameValuePair(GlobalConstant.TAG_year+ "__or", ""+i));
+        else {
+            String[] cropNameArray = getResources().getStringArray(R.array.crop_name);
+            Log.d("all crop name", "" + cropNameArray.length);
+            for (int i = 0; i < cropNameArray.length; i++) {
+                params.add(new NameValuePair(GlobalConstant.TAG_commodity_desc + "__or", cropNameArray[i]));
+            }
+        }
+        if(!TextUtils.isEmpty(year)) {
+            params.add(new NameValuePair(GlobalConstant.TAG_year + "__or", year));
+        }
+        else {
+            for (int i = 2015; i >= 1995; i--) {
+                params.add(new NameValuePair(GlobalConstant.TAG_year + "__or", "" + i));
+            }
         }
 
         String fullUrl = GlobalConstant.urlBuilder(GlobalConstant.API_URL, params);
@@ -143,6 +165,7 @@ public class HomeAllCropsFragment extends Fragment {
                         });
 
                 } catch (JSONException e) {
+                    hidepDialog();
                     e.printStackTrace();
                 }
                 hidepDialog();

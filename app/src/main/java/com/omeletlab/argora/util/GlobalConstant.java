@@ -30,6 +30,11 @@ public class GlobalConstant {
     public static final String TAG_commodity_desc = "commodity_desc";
     public static final String TAG_state_name = "state_name";
 
+    public static final String TAG_CROP_NAME = "CROP_NAME";
+    public static final String TAG_STATE_NAME = "STATE_NAME";
+    public static final String TAG_ANALYSIS_TYPE = "ANALYSIS_TYPE";
+    public static final String TAG_YEAR = "YEAR";
+
     public static final String UNITS_YEILD = "BU/ACRE";
 
     public static final String LOGIN_USER_NAME = "login_username";

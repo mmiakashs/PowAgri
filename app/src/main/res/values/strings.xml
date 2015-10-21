@@ -6,9 +6,8 @@
 
     <!-- Navigation drawer item -->
     <string name="nav_item_home">Home</string>
-    <string name="nav_item_price">Price</string>
-    <string name="nav_item_expenses">Expenses</string>
-    <string name="nav_item_state">State</string>
+    <string name="nav_item_price">State Analysis</string>
+    <string name="nav_item_expenses">Crop Analysis</string>
     <string name="title_activity_crop_state_year_analysis">CropStateYearAnalysisActivity</string>
 
 </resources>
