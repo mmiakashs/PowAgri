@@ -3,11 +3,11 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="year_based_fixed_state_crop_analysis">Year Based Analysis</string>
 
     <!-- Navigation drawer item -->
     <string name="nav_item_home">Home</string>
     <string name="nav_item_price">State Analysis</string>
     <string name="nav_item_expenses">Crop Analysis</string>
-    <string name="title_activity_crop_state_year_analysis">CropStateYearAnalysisActivity</string>
 
 </resources>

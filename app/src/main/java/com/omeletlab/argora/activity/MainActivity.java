@@ -19,6 +19,7 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.omeletlab.argora.R;
 import com.omeletlab.argora.adapter.ViewPagerAdapter;
@@ -64,16 +65,17 @@ public class MainActivity extends AppCompatActivity {
                 .withSavedInstance(savedInstanceState)
                 .addDrawerItems(
                         homeDrawerItem,
-                        new DividerDrawerItem(),
                         inboxDrawerItem,
-                        sentDrawerItem
+                        sentDrawerItem,
+                        new SectionDrawerItem().withName("Section").withDivider(true)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        Log.d("drawerItemClick",""+position);
-                        if(position==3){
-                            selectOption=-1;
+                        if (position == 1) {
+                            displayView(1);
+                        } else if (position == 2) {
+                            selectOption = -1;
                             new MaterialDialog.Builder(MainActivity.this)
                                     .title("Select State")
                                     .items(getResources().getStringArray(R.array.state_name))
@@ -101,13 +103,19 @@ public class MainActivity extends AppCompatActivity {
                                             if (selectOption != -1) displayView(2);
                                         }
                                     })
+                                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                                            materialDialog.dismiss();
+                                        }
+                                    })
                                     .show();
                         }
                         return false;
                     }
                 }).build();
 
-        displayView(0);
+        displayView(1);
 
     }
 /*
@@ -121,23 +129,23 @@ public class MainActivity extends AppCompatActivity {
         // update the main content with called Fragment
         Fragment fragment = null;
         switch (position) {
-            case 0:
+            case 1:
                 bundle = new Bundle();
                 bundle.putString(GlobalConstant.TAG_YEAR, "2014");
                 bundle.putString(GlobalConstant.TAG_ANALYSIS_TYPE, "YIELD");
-                bundle.putString(GlobalConstant.TAG_STATE_NAME,"");
-                bundle.putString(GlobalConstant.TAG_CROP_NAME,"");
+                bundle.putString(GlobalConstant.TAG_STATE_NAME, "");
+                bundle.putString(GlobalConstant.TAG_CROP_NAME, "");
                 fragment = new HomeAllCropsFragment();
                 fragment.setArguments(bundle);
                 fragmentID = 0;
                 break;
             case 2:
-                Log.d("selectStateName",selectedText);
+                Log.d("selectStateName", selectedText);
                 Bundle bundle = new Bundle();
                 bundle.putString(GlobalConstant.TAG_YEAR, "2014");
                 bundle.putString(GlobalConstant.TAG_ANALYSIS_TYPE, "YIELD");
                 bundle.putString(GlobalConstant.TAG_STATE_NAME, selectedText);
-                bundle.putString(GlobalConstant.TAG_CROP_NAME,"");
+                bundle.putString(GlobalConstant.TAG_CROP_NAME, "");
                 fragment = new HomeAllCropsFragment();
                 fragment.setArguments(bundle);
                 fragmentID = 1;

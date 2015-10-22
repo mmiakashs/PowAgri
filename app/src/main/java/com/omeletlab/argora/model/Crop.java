@@ -9,12 +9,14 @@ public class Crop {
     private String stateName;
     private String year;
     private String value;
+    private String statisticCategory;
 
-    public Crop(String cropName, String stateName, String year, String value) {
+    public Crop(String cropName, String stateName, String year, String value, String analysisType) {
         this.cropName = cropName;
         this.stateName = stateName;
         this.year = year;
         this.value = value;
+        this.statisticCategory = analysisType;
     }
 
     public String getCropName() {
@@ -47,5 +49,13 @@ public class Crop {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getStatisticCategory() {
+        return statisticCategory;
+    }
+
+    public void setStatisticCategory(String statisticCategory) {
+        this.statisticCategory = statisticCategory;
     }
 }

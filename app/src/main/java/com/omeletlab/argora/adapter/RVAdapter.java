@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.omeletlab.argora.R;
 import com.omeletlab.argora.activity.CropStateYearAnalysisActivity;
-import com.omeletlab.argora.activity.MainActivity;
 import com.omeletlab.argora.model.Crop;
 import com.omeletlab.argora.util.GlobalConstant;
 
@@ -48,6 +47,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CropViewHolder> {
                 Intent in = new Intent(mActivity, CropStateYearAnalysisActivity.class);
                 in.putExtra(GlobalConstant.TAG_commodity_desc, cropList.get(position).getCropName());
                 in.putExtra(GlobalConstant.TAG_state_name, cropList.get(position).getStateName());
+                in.putExtra(GlobalConstant.TAG_statisticcat_desc, cropList.get(position).getStatisticCategory());
                 mActivity.startActivity(in);
             }
         });

@@ -3,6 +3,7 @@
     package="com.omeletlab.argora" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".util.AppController"
@@ -21,7 +22,7 @@
         </activity>
         <activity
             android:name=".activity.CropStateYearAnalysisActivity"
-            android:label="@string/title_activity_crop_state_year_analysis" >
+            android:label="@string/year_based_fixed_state_crop_analysis" >
         </activity>
     </application>
 

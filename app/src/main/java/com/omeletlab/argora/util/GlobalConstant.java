@@ -29,6 +29,7 @@ public class GlobalConstant {
     public static final String TAG_reference_period_desc = "reference_period_desc";
     public static final String TAG_commodity_desc = "commodity_desc";
     public static final String TAG_state_name = "state_name";
+    public static final String TAG_freq_desc = "freq_desc";
 
     public static final String TAG_CROP_NAME = "CROP_NAME";
     public static final String TAG_STATE_NAME = "STATE_NAME";
@@ -73,5 +74,22 @@ public class GlobalConstant {
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public static String getUnitsName(String statisticType){
+        if(statisticType.equals("AREA HARVESTED")){
+            return "ACRES";
+        }else if(statisticType.equals("AREA PLANTED")){
+            return "ACRES";
+        }
+        else if(statisticType.equals("YIELD")){
+            return "BU / ACRE";
+        }
+        else if(statisticType.equals("PRICE RECEIVED")){
+            return "$ / BU";
+        }
+        else{
+            return "";
+        }
     }
 }

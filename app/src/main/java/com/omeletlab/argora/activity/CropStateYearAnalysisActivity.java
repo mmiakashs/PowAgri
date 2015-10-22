@@ -49,6 +49,7 @@ public class CropStateYearAnalysisActivity extends AppCompatActivity {
 
     private String stateName;
     private String cropName;
+    private String statisticCategory;
 
     public static final List<Crop> mCropList = new ArrayList<>();
     public static Map<String,Integer> uniqueMapValue = new HashMap<String,Integer>();
@@ -69,6 +70,7 @@ public class CropStateYearAnalysisActivity extends AppCompatActivity {
         Intent in = getIntent();
         cropName = in.getStringExtra(GlobalConstant.TAG_commodity_desc);
         stateName = in.getStringExtra(GlobalConstant.TAG_state_name);
+        statisticCategory = in.getStringExtra(GlobalConstant.TAG_statisticcat_desc);
         uniqueMapValue = new HashMap<String,Integer>();
 
         pDialog = new ProgressDialog(this);
@@ -89,14 +91,14 @@ public class CropStateYearAnalysisActivity extends AppCompatActivity {
         List<NameValuePair> params = new ArrayList<>();
         params.add(new NameValuePair(GlobalConstant.TAG_commodity_desc, cropName));
         params.add(new NameValuePair(GlobalConstant.TAG_state_name, stateName));
+        params.add(new NameValuePair(GlobalConstant.TAG_statisticcat_desc, statisticCategory));
         params.add(new NameValuePair(GlobalConstant.TAG_agg_level_desc, "STATE"));
         params.add(new NameValuePair("prodn_practice_desc", "ALL PRODUCTION PRACTICES"));
         params.add(new NameValuePair("class_desc", "ALL CLASSES"));
         params.add(new NameValuePair(GlobalConstant.TAG_source_desc, "SURVEY"));
         params.add(new NameValuePair(GlobalConstant.TAG_sector_desc, "CROPS"));
-        params.add(new NameValuePair(GlobalConstant.TAG_group_desc, "FIELD%20CROPS"));
-        params.add(new NameValuePair(GlobalConstant.TAG_statisticcat_desc, "AREA%20HARVESTED"));
-        params.add(new NameValuePair(GlobalConstant.TAG_reference_period_desc, "YEAR"));
+        params.add(new NameValuePair(GlobalConstant.TAG_freq_desc, "ANNUAL"));
+
         for(int i=2015;i>=1995;i--){
             params.add(new NameValuePair(GlobalConstant.TAG_year+ "__or", ""+i));
         }
@@ -124,12 +126,13 @@ public class CropStateYearAnalysisActivity extends AppCompatActivity {
                                     String cropName = item.getString("commodity_desc");
                                     String stateName = item.getString("state_name");
                                     String year = item.getString("year");
-                                    String value = item.getString("value").replaceAll(",","");
+                                    String value = item.getString("value").replaceAll(",", "");
+                                    String statisticCategory = item.getString(GlobalConstant.TAG_statisticcat_desc);
 
                                     if(TextUtils.isDigitsOnly(value)) {
                                         if(!uniqueMapValue.containsKey(year)){
                                             uniqueMapValue.put(year, Integer.parseInt(value));
-                                            mCropList.add(new Crop(cropName, stateName, year, value));
+                                            mCropList.add(new Crop(cropName, stateName, year, value, statisticCategory));
                                         }
                                         else{
                                             Integer tempIn = uniqueMapValue.get(year);
@@ -216,7 +219,8 @@ public class CropStateYearAnalysisActivity extends AppCompatActivity {
 
             @Override
             public void onValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
-                String message = "Crop:"+mCropList.get(columnIndex).getCropName()+ "(" + value + " " + GlobalConstant.UNITS_YEILD+")";
+                Crop crop = mCropList.get(columnIndex);
+                String message = "Crop:"+crop.getCropName()+ "(" + value + " " + GlobalConstant.getUnitsName(crop.getStatisticCategory())+")";
                 Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
             }
             @Override

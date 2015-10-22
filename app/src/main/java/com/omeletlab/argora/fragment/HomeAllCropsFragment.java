@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +26,7 @@ import com.omeletlab.argora.model.Crop;
 import com.omeletlab.argora.util.AppController;
 import com.omeletlab.argora.util.GlobalConstant;
 import com.omeletlab.argora.util.NameValuePair;
+import com.omeletlab.argora.util.Network;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -85,7 +87,13 @@ public class HomeAllCropsFragment extends Fragment {
         pDialog.setMessage("Loading, Please wait...");
         pDialog.setCancelable(false);
 
-        loadCropsList();
+        Network netwrok = new Network(getActivity());
+        if(netwrok.isNetworkConnected()) {
+            loadCropsList();
+        }
+        else{
+            GlobalConstant.showMessage(getActivity(),"Internet Conntection is not available.");
+        }
 
         return view;
     }
@@ -103,7 +111,7 @@ public class HomeAllCropsFragment extends Fragment {
         params.add(new NameValuePair(GlobalConstant.TAG_sector_desc, "CROPS"));
         params.add(new NameValuePair(GlobalConstant.TAG_group_desc, "FIELD%20CROPS"));
         params.add(new NameValuePair(GlobalConstant.TAG_statisticcat_desc, analysisType));
-        params.add(new NameValuePair(GlobalConstant.TAG_reference_period_desc, "YEAR"));
+        params.add(new NameValuePair(GlobalConstant.TAG_freq_desc, "ANNUAL"));
 
         if(!TextUtils.isEmpty(cropName)) {
             params.add(new NameValuePair(GlobalConstant.TAG_commodity_desc+"__or", cropName));
@@ -150,9 +158,10 @@ public class HomeAllCropsFragment extends Fragment {
                                         String stateName = item.getString("state_name");
                                         String year = item.getString("year");
                                         String value = item.getString("value");
+                                        String statisticCategory = item.getString(GlobalConstant.TAG_statisticcat_desc);
 
                                         if(TextUtils.isDigitsOnly(value.replaceAll(",",""))){
-                                            mCropList.add(new Crop(cropName, stateName, year, value));
+                                            mCropList.add(new Crop(cropName, stateName, year, value, statisticCategory));
                                         }
                                     }
                                     Collections.sort(mCropList, new CropComparator());
