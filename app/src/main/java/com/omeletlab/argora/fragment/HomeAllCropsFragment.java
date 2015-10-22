@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -52,10 +54,11 @@ public class HomeAllCropsFragment extends Fragment {
     public RVAdapter rvAdapter;
     private ProgressDialog pDialog;
 
-    private String stateName="";
-    private String year="";
-    private String cropName="";
-    private String analysisType="";
+    private String stateName = "";
+    private String year = "";
+    private String cropName = "";
+    private String analysisType = "";
+    private String isShowLoadingDialog = "YES";
 
     public HomeAllCropsFragment() {
     }
@@ -69,6 +72,7 @@ public class HomeAllCropsFragment extends Fragment {
         stateName = getArguments().getString(GlobalConstant.TAG_STATE_NAME);
         year = getArguments().getString(GlobalConstant.TAG_YEAR);
         analysisType = getArguments().getString(GlobalConstant.TAG_ANALYSIS_TYPE);
+        isShowLoadingDialog = getArguments().getString(GlobalConstant.TAG_isShowLoadingDialog);
 
         Context context = getActivity();
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
@@ -88,23 +92,22 @@ public class HomeAllCropsFragment extends Fragment {
         pDialog.setCancelable(false);
 
         Network netwrok = new Network(getActivity());
-        if(netwrok.isNetworkConnected()) {
+        if (netwrok.isNetworkConnected()) {
             loadCropsList();
-        }
-        else{
-            GlobalConstant.showMessage(getActivity(),"Internet Conntection is not available.");
+        } else {
+            GlobalConstant.showMessage(getActivity(), "Internet Conntection is not available.");
         }
 
         return view;
     }
 
-    public void loadCropsList(){
+    public void loadCropsList() {
         showpDialog();
 
         List<NameValuePair> params = new ArrayList<>();
         params.add(new NameValuePair(GlobalConstant.TAG_agg_level_desc, "STATE"));
-        if(!TextUtils.isEmpty(stateName)) {
-            params.add(new NameValuePair(GlobalConstant.TAG_state_name+"__or", stateName));
+        if (!TextUtils.isEmpty(stateName)) {
+            params.add(new NameValuePair(GlobalConstant.TAG_state_name + "__or", stateName));
         }
         params.add(new NameValuePair("class_desc", "ALL CLASSES"));
         params.add(new NameValuePair(GlobalConstant.TAG_source_desc, "SURVEY"));
@@ -113,20 +116,17 @@ public class HomeAllCropsFragment extends Fragment {
         params.add(new NameValuePair(GlobalConstant.TAG_statisticcat_desc, analysisType));
         params.add(new NameValuePair(GlobalConstant.TAG_freq_desc, "ANNUAL"));
 
-        if(!TextUtils.isEmpty(cropName)) {
-            params.add(new NameValuePair(GlobalConstant.TAG_commodity_desc+"__or", cropName));
-        }
-        else {
+        if (!TextUtils.isEmpty(cropName)) {
+            params.add(new NameValuePair(GlobalConstant.TAG_commodity_desc + "__or", cropName));
+        } else {
             String[] cropNameArray = getResources().getStringArray(R.array.crop_name);
-            Log.d("all crop name", "" + cropNameArray.length);
             for (int i = 0; i < cropNameArray.length; i++) {
                 params.add(new NameValuePair(GlobalConstant.TAG_commodity_desc + "__or", cropNameArray[i]));
             }
         }
-        if(!TextUtils.isEmpty(year)) {
+        if (!TextUtils.isEmpty(year)) {
             params.add(new NameValuePair(GlobalConstant.TAG_year + "__or", year));
-        }
-        else {
+        } else {
             for (int i = 2015; i >= 1995; i--) {
                 params.add(new NameValuePair(GlobalConstant.TAG_year + "__or", "" + i));
             }
@@ -140,38 +140,53 @@ public class HomeAllCropsFragment extends Fragment {
 
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("Map server response", response.toString());
+                if(TextUtils.isEmpty(response.toString()) || response.toString().length()<200){
+                    hidepDialog();
+                    Toast.makeText(getActivity(), "No data is available at this moment.", Toast.LENGTH_LONG).show();
+                }
 
                 try {
+                    cropsJsonArray = response.getJSONArray("data");
+                    HomeAllCropsFragment.this.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                mCropList.clear();
+                                Map<String,Integer> nap = new HashMap<String, Integer>();
+                                for (int i = 0; i < cropsJsonArray.length(); i++) {
+                                    JSONObject item = cropsJsonArray.getJSONObject(i);
 
+                                    String cropName = item.getString("commodity_desc");
+                                    String stateName = item.getString("state_name");
+                                    String year = item.getString("year");
+                                    String value = item.getString("value");
+                                    String statisticCategory = item.getString(GlobalConstant.TAG_statisticcat_desc);
 
-                        cropsJsonArray = response.getJSONArray("data");
-                        HomeAllCropsFragment.this.getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    mCropList.clear();
-                                    for (int i = 0; i < cropsJsonArray.length(); i++) {
-                                        JSONObject item = cropsJsonArray.getJSONObject(i);
-
-                                        String cropName = item.getString("commodity_desc");
-                                        String stateName = item.getString("state_name");
-                                        String year = item.getString("year");
-                                        String value = item.getString("value");
-                                        String statisticCategory = item.getString(GlobalConstant.TAG_statisticcat_desc);
-
-                                        if(TextUtils.isDigitsOnly(value.replaceAll(",",""))){
-                                            mCropList.add(new Crop(cropName, stateName, year, value, statisticCategory));
+                                    if (TextUtils.isDigitsOnly(value.replaceAll(",", ""))) {
+                                        String uniqueKey = cropName+year+stateName;
+                                        if(nap.containsKey(uniqueKey)){
+                                            nap.put(uniqueKey,Math.max(nap.get(uniqueKey),Integer.valueOf(value.replaceAll(",",""))));
+                                            continue;
                                         }
-                                    }
-                                    Collections.sort(mCropList, new CropComparator());
-                                    rvAdapter.notifyDataSetChanged();
+                                        nap.put(uniqueKey,Integer.valueOf(value.replaceAll(",","")));
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                        mCropList.add(new Crop(cropName, stateName, year, value, statisticCategory));
+                                    }
                                 }
+                                for(int i=0;i<mCropList.size();i++){
+                                    Crop crop = mCropList.get(i);
+                                    String uniqueKey = crop.getCropName()+crop.getYear()+crop.getStateName();
+                                    mCropList.get(i).setValue( NumberFormat.getInstance().format(nap.get(uniqueKey)));
+                                }
+                                Collections.sort(mCropList, new CropComparator());
+                                rvAdapter.notifyDataSetChanged();
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        });
+                        }
+                    });
 
                 } catch (JSONException e) {
                     hidepDialog();
@@ -188,22 +203,23 @@ public class HomeAllCropsFragment extends Fragment {
 
         AppController.getInstance().addToRequestQueue(jsonObjReq);
     }
+
     private class CropComparator implements Comparator<Crop> {
 
         @Override
         public int compare(Crop s1, Crop s2) {
 
-            Log.d("formate value",s1.getValue());
+            Log.d("formate value", s1.getValue());
             long value1 = Long.parseLong(s1.getValue().replaceAll(",", ""));
             long value2 = Long.parseLong(s2.getValue().replaceAll(",", ""));
 
-            return (value1<value2)?1:(value1>value2?-1:0);
+            return (value1 < value2) ? 1 : (value1 > value2 ? -1 : 0);
         }
 
     }
 
     private void showpDialog() {
-        if (!pDialog.isShowing())
+        if (isShowLoadingDialog.equals(GlobalConstant.TAG_YES) && !pDialog.isShowing())
             pDialog.show();
     }
 

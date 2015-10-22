@@ -12,8 +12,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -57,6 +60,10 @@ public class CropStateYearAnalysisActivity extends AppCompatActivity {
     private static PlaceholderFragment placeHolderFragment;
 
     private ProgressDialog pDialog;
+    private Button compareButton;
+
+    private int selectedOption = -1;
+    private String selectedCropName="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +79,52 @@ public class CropStateYearAnalysisActivity extends AppCompatActivity {
         stateName = in.getStringExtra(GlobalConstant.TAG_state_name);
         statisticCategory = in.getStringExtra(GlobalConstant.TAG_statisticcat_desc);
         uniqueMapValue = new HashMap<String,Integer>();
+
+        compareButton = (Button)findViewById(R.id.compareButton);
+        compareButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                new MaterialDialog.Builder(CropStateYearAnalysisActivity.this)
+                        .title("Select State")
+                        .items(getResources().getStringArray(R.array.crop_name))
+                        .autoDismiss(false)
+                        .forceStacking(false)
+                        .positiveText("Compare")
+                        .negativeText("Close")
+                        .alwaysCallSingleChoiceCallback()
+                        .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                            @Override
+                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+
+                                if (text != null) {
+                                    selectedOption = which;
+                                    selectedCropName = text.toString();
+                                }
+                                return true;
+                            }
+                        })
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                                materialDialog.dismiss();
+                                if(selectedOption==-1) return;
+                                Intent in = new Intent(CropStateYearAnalysisActivity.this, CompareSelectedCropActivity.class);
+                                in.putExtra(GlobalConstant.TAG_FIRST_COMPARE_ITEM, cropName);
+                                in.putExtra(GlobalConstant.TAG_SECOND_COMPARE_ITEM, selectedCropName);
+                                in.putExtra(GlobalConstant.TAG_state_name, stateName);
+                                in.putExtra(GlobalConstant.TAG_statisticcat_desc, statisticCategory);
+                                startActivity(in);
+                            }
+                        })
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                                materialDialog.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        });
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading, Please wait...");
@@ -110,8 +163,10 @@ public class CropStateYearAnalysisActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("CropStateYear response", response.toString());
-
+                if(TextUtils.isEmpty(response.toString()) || response.toString().length()<200){
+                    hidepDialog();
+                    Toast.makeText(CropStateYearAnalysisActivity.this,"No data is available for the choosen crops: "+cropName, Toast.LENGTH_LONG).show();
+                }
                 try {
 
                     cropsJsonArray = response.getJSONArray("data");
@@ -144,6 +199,7 @@ public class CropStateYearAnalysisActivity extends AppCompatActivity {
                                 placeHolderFragment.generateData();
 
                             } catch (JSONException e) {
+                                hidepDialog();
                                 e.printStackTrace();
                             }
                             hidepDialog();

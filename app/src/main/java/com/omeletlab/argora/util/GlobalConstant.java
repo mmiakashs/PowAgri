@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.jar.Attributes;
@@ -35,9 +36,15 @@ public class GlobalConstant {
     public static final String TAG_STATE_NAME = "STATE_NAME";
     public static final String TAG_ANALYSIS_TYPE = "ANALYSIS_TYPE";
     public static final String TAG_YEAR = "YEAR";
+    public static final String TAG_isShowLoadingDialog="isShowLoadingDialog";
+
+    public static final String TAG_FIRST_COMPARE_ITEM = "FIRST_COMPARE_ITEM";
+    public static final String TAG_SECOND_COMPARE_ITEM = "SECOND_COMPARE_ITEM";
 
     public static final String UNITS_YEILD = "BU/ACRE";
 
+    public static final String TAG_YES = "YES";
+    public static final String TAG_NO = "NO";
     public static final String LOGIN_USER_NAME = "login_username";
     public static final String NOT_LOGIN = "not_login";
 
@@ -91,5 +98,11 @@ public class GlobalConstant {
         else{
             return "";
         }
+    }
+
+    public static int getPreviousYear() {
+        Calendar prevYear = Calendar.getInstance();
+        prevYear.add(Calendar.YEAR, -1);
+        return prevYear.get(Calendar.YEAR);
     }
 }

@@ -7,7 +7,15 @@
 
     <!-- Navigation drawer item -->
     <string name="nav_item_home">Home</string>
-    <string name="nav_item_price">State Analysis</string>
-    <string name="nav_item_expenses">Crop Analysis</string>
+    <string name="nav_item_product_based_analysis">Crop Based Analysis</string>
+    <string name="nav_item_state_based_analysis">State Based Analysis</string>
+    <string name="nav_item_compare_crops_analysis">Compare Crops</string>
+    <string name="nav_item_yield_based_analysis">Yield Analysis</string>
+    <string name="nav_item_area_harvested_based_analysis">Area Harvested Analysis</string>
+    <string name="nav_item_price_received_analysis">Price Received Analysis</string>
+    <string name="nav_item_area_planted_based_analysis">Area Planted Analysis</string>
+
+    <string name="title_activity_compare">Compare Crops</string>
+    <string name="title_activity_crop_analysis">Crop Analysis</string>
 
 </resources>

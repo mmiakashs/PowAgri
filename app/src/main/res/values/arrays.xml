@@ -153,4 +153,11 @@
         <item>WYOMING</item>
     </string-array>
 
+    <string-array name="statistic_category">
+        <item>YIELD</item>
+        <item>AREA HARVESTED</item>
+        <item>PRICE RECEIVED</item>
+        <item>AREA PLANTED</item>
+    </string-array>
+
 </resources>

@@ -23,16 +23,22 @@
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        <Button
+            android:id="@+id/compareButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/primary_dark"
+            android:textColor="@color/textColorPrimary"
+            android:text="Compare"/>
     </android.support.design.widget.AppBarLayout>
-
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/graphContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context="lecho.lib.hellocharts.samples.PieChartActivity"
         tools:ignore="MergeRootFrame" />
+
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

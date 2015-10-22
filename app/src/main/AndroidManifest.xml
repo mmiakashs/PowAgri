@@ -21,8 +21,20 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activity.CommonAnalysisListActivity"
+            android:label="@string/title_activity_crop_analysis" >
+        </activity>
+        <activity
             android:name=".activity.CropStateYearAnalysisActivity"
             android:label="@string/year_based_fixed_state_crop_analysis" >
+        </activity>
+        <activity
+            android:name=".activity.CompareActivity"
+            android:label="@string/title_activity_compare" >
+        </activity>
+        <activity
+            android:name=".activity.CompareSelectedCropActivity"
+            android:label="@string/title_activity_compare" >
         </activity>
     </application>
 
