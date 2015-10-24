@@ -10,13 +10,23 @@ public class Crop {
     private String year;
     private String value;
     private String statisticCategory;
+    private String units;
 
-    public Crop(String cropName, String stateName, String year, String value, String analysisType) {
+    public Crop(String cropName, String stateName, String year, String value, String statisticCategory, String units) {
         this.cropName = cropName;
         this.stateName = stateName;
         this.year = year;
         this.value = value;
-        this.statisticCategory = analysisType;
+        this.statisticCategory = statisticCategory;
+        this.units = units;
+    }
+
+    public String getUnits() {
+        return units;
+    }
+
+    public void setUnits(String units) {
+        this.units = units;
     }
 
     public String getCropName() {

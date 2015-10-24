@@ -9,6 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cv"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
         >
 
         <RelativeLayout
@@ -29,18 +31,26 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/person_name"
+                android:id="@+id/crop_name"
                 android:layout_toRightOf="@+id/person_photo"
                 android:layout_alignParentTop="true"
-                android:textSize="22sp"
+                android:textSize="18sp"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/person_age"
+                android:id="@+id/state_name"
                 android:layout_toRightOf="@+id/person_photo"
-                android:layout_below="@+id/person_name"
+                android:layout_below="@+id/crop_name"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/crop_value"
+                android:layout_toRightOf="@+id/person_photo"
+                android:layout_below="@+id/state_name"
                 />
 
         </RelativeLayout>

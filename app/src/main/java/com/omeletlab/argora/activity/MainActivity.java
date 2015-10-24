@@ -1,18 +1,14 @@
 package com.omeletlab.argora.activity;
 
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -26,11 +22,9 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.omeletlab.argora.R;
 import com.omeletlab.argora.adapter.ViewPagerAdapter;
-import com.omeletlab.argora.fragment.HomeAllCropsFragment;
+import com.omeletlab.argora.fragment.CommonCropsCardListFragment;
+import com.omeletlab.argora.model.CustomPrimaryDrawerItem;
 import com.omeletlab.argora.util.GlobalConstant;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -66,7 +60,11 @@ public class MainActivity extends AppCompatActivity {
         PrimaryDrawerItem homeDrawerItem = new PrimaryDrawerItem().withName(R.string.nav_item_home);
         PrimaryDrawerItem productBasedAnalysisDrawerItem = new PrimaryDrawerItem().withName(R.string.nav_item_product_based_analysis);
         PrimaryDrawerItem stateBasedDrawerItem = new PrimaryDrawerItem().withName(R.string.nav_item_state_based_analysis);
-        PrimaryDrawerItem compareBasedDrawerItem = new PrimaryDrawerItem().withName(R.string.nav_item_compare_crops_analysis);
+        PrimaryDrawerItem compareBasedDrawerItem = new CustomPrimaryDrawerItem().withName(R.string.nav_item_compare_crops_analysis);
+        PrimaryDrawerItem productionAnalysisDrawerItem = new CustomPrimaryDrawerItem().withBackgroundColor(R.color.accent).withName(R.string.nav_item_compare_production_analysis).withSelectable(false);
+
+        SecondaryDrawerItem stateProductivity = new SecondaryDrawerItem().withName(R.string.nav_sub_item_production_state_analysis);
+        SecondaryDrawerItem cropProductivity = new SecondaryDrawerItem().withName(R.string.nav_sub_item_production_crop_analysis);
 
         SecondaryDrawerItem yieldAnalysis = new SecondaryDrawerItem().withName(R.string.nav_item_yield_based_analysis);
         SecondaryDrawerItem areaHarvestedAnalysis = new SecondaryDrawerItem().withName(R.string.nav_item_area_harvested_based_analysis);
@@ -83,18 +81,13 @@ public class MainActivity extends AppCompatActivity {
                         homeDrawerItem, //Item 1
                         new DividerDrawerItem(), //Item 2
                         compareBasedDrawerItem, //Item 3
-                        new DividerDrawerItem(), //Item 4
-                        stateBasedDrawerItem,  //Item 5
-                        yieldAnalysis,  //Item 6
-                        areaHarvestedAnalysis,  //Item 7
-                        priceReceivedAnalysis,  //Item 8
-                        areaPlantedAnalysis,  //Item 9
-                        new DividerDrawerItem(),  //Item 10
-                        productBasedAnalysisDrawerItem,  //Item 11
-                        yieldAnalysis,  //Item 12
-                        areaHarvestedAnalysis,  //Item 13
-                        priceReceivedAnalysis,  //Item 14
-                        areaPlantedAnalysis  //Item 15
+                        stateBasedDrawerItem,  //Item 4
+                        productBasedAnalysisDrawerItem,  //Item 5
+                        new DividerDrawerItem(), //Item 6
+                        productionAnalysisDrawerItem, //Item 7
+                        stateProductivity,  //Item 8
+                        cropProductivity,  //Item 9
+                        new DividerDrawerItem()  //Item 10
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -104,15 +97,23 @@ public class MainActivity extends AppCompatActivity {
                         else if (position == 3) {
                             compareActivity();
                         }
-                        else if (position == 5) {
+                        else if (position == 4) {
                             stateBasedAnalysis();
                         }
-                        else if (position == 11) {
+                        else if (position == 5) {
                             cropBasedAnalysis();
+                        }
+                        else if (position == 8) {
+                            productionStateAnalysis();
+                        }
+                        else if (position == 9) {
+                            productionCropAnalysis();
                         }
                         return false;
                     }
-                }).build();
+                })
+                .withSelectedItemByPosition(1)
+                .build();
 
         //displayView(1);
 
@@ -122,44 +123,46 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         bundle = new Bundle();
-        bundle.putString(GlobalConstant.TAG_YEAR, ""+GlobalConstant.getPreviousYear());
+        bundle.putString(GlobalConstant.TAG_YEAR, "" + GlobalConstant.getPreviousYear());
         bundle.putString(GlobalConstant.TAG_ANALYSIS_TYPE, "YIELD");
         bundle.putString(GlobalConstant.TAG_STATE_NAME, "");
         bundle.putString(GlobalConstant.TAG_CROP_NAME, "");
-        bundle.putString(GlobalConstant.TAG_isShowLoadingDialog, GlobalConstant.TAG_YES);
-        Fragment fragmentYield = new HomeAllCropsFragment();
+        bundle.putString(GlobalConstant.TAG_isShowLoadingDialog, GlobalConstant.TAG_NO);
+        Fragment fragmentYield = new CommonCropsCardListFragment();
         fragmentYield.setArguments(bundle);
         adapter.addFragment(fragmentYield, "Yield");
 
         bundle = new Bundle();
-        bundle.putString(GlobalConstant.TAG_YEAR, ""+GlobalConstant.getPreviousYear());
-        bundle.putString(GlobalConstant.TAG_ANALYSIS_TYPE, "AREA HARVESTED");
-        bundle.putString(GlobalConstant.TAG_STATE_NAME, "");
-        bundle.putString(GlobalConstant.TAG_CROP_NAME, "");
-        bundle.putString(GlobalConstant.TAG_isShowLoadingDialog, GlobalConstant.TAG_NO);
-        Fragment fragmentAreaHarvested = new HomeAllCropsFragment();
-        fragmentAreaHarvested.setArguments(bundle);
-        adapter.addFragment(fragmentAreaHarvested, "AREA HARVESTED");
-
-        bundle = new Bundle();
-        bundle.putString(GlobalConstant.TAG_YEAR, ""+GlobalConstant.getPreviousYear());
+        bundle.putString(GlobalConstant.TAG_YEAR, "" + GlobalConstant.getPreviousYear());
         bundle.putString(GlobalConstant.TAG_ANALYSIS_TYPE, "PRICE RECEIVED");
         bundle.putString(GlobalConstant.TAG_STATE_NAME, "");
         bundle.putString(GlobalConstant.TAG_CROP_NAME, "");
         bundle.putString(GlobalConstant.TAG_isShowLoadingDialog, GlobalConstant.TAG_NO);
-        Fragment fragmentPriceReceived = new HomeAllCropsFragment();
+        Fragment fragmentPriceReceived = new CommonCropsCardListFragment();
         fragmentPriceReceived.setArguments(bundle);
         adapter.addFragment(fragmentPriceReceived, "PRICE RECEIVED");
 
         bundle = new Bundle();
         bundle.putString(GlobalConstant.TAG_YEAR, ""+GlobalConstant.getPreviousYear());
+        bundle.putString(GlobalConstant.TAG_ANALYSIS_TYPE, "AREA PLANTED");
+        bundle.putString(GlobalConstant.TAG_STATE_NAME, "");
+        bundle.putString(GlobalConstant.TAG_CROP_NAME, "");
+        bundle.putString(GlobalConstant.TAG_isShowLoadingDialog, GlobalConstant.TAG_NO);
+        Fragment fragmentAreaPlanned = new CommonCropsCardListFragment();
+        fragmentAreaPlanned.setArguments(bundle);
+        adapter.addFragment(fragmentAreaPlanned, "AREA PLANTED");
+
+        /*
+        bundle = new Bundle();
+        bundle.putString(GlobalConstant.TAG_YEAR, ""+GlobalConstant.getPreviousYear());
         bundle.putString(GlobalConstant.TAG_ANALYSIS_TYPE, "AREA HARVESTED");
         bundle.putString(GlobalConstant.TAG_STATE_NAME, "");
         bundle.putString(GlobalConstant.TAG_CROP_NAME, "");
         bundle.putString(GlobalConstant.TAG_isShowLoadingDialog, GlobalConstant.TAG_NO);
-        Fragment fragmentAreaPlanned = new HomeAllCropsFragment();
-        fragmentAreaPlanned.setArguments(bundle);
-        adapter.addFragment(fragmentAreaPlanned, "AREA PLANTED");
+        Fragment fragmentAreaHarvested = new CommonCropsCardListFragment();
+        fragmentAreaHarvested.setArguments(bundle);
+        adapter.addFragment(fragmentAreaHarvested, "AREA HARVESTED");
+        */
 
         viewPager.setAdapter(adapter);
     }
@@ -167,8 +170,19 @@ public class MainActivity extends AppCompatActivity {
     public void compareActivity(){
         Intent intent = new Intent(MainActivity.this, CompareActivity.class);
         intent.putExtra(GlobalConstant.TAG_state_name, getResources().getStringArray(R.array.state_name)[0]);
-        intent.putExtra(GlobalConstant.TAG_commodity_desc, getResources().getStringArray(R.array.crop_name)[0]);
+        intent.putExtra(GlobalConstant.TAG_FIRST_COMPARE_ITEM, getResources().getStringArray(R.array.crop_name)[0]);
+        intent.putExtra(GlobalConstant.TAG_SECOND_COMPARE_ITEM, getResources().getStringArray(R.array.crop_name)[0]);
         intent.putExtra(GlobalConstant.TAG_statisticcat_desc, getResources().getStringArray(R.array.statistic_category)[0]);
+        intent.putExtra(GlobalConstant.TAG_RELOAD, GlobalConstant.TAG_NO);
+        startActivity(intent);
+    }
+
+    public void singleProductionActivity(String stateName, String cropName, String year, String statisticCategory){
+        Intent intent = new Intent(MainActivity.this, SingleItemAnalysisActivity.class);
+        intent.putExtra(GlobalConstant.TAG_state_name, stateName);
+        intent.putExtra(GlobalConstant.TAG_commodity_desc, cropName);
+        intent.putExtra(GlobalConstant.TAG_year, year);
+        intent.putExtra(GlobalConstant.TAG_statisticcat_desc, statisticCategory);
         startActivity(intent);
     }
 
@@ -218,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
     public void cropBasedAnalysis(){
         selectOption = -1;
         MaterialDialog dialog = new MaterialDialog.Builder(MainActivity.this)
-                .title("Select State")
+                .title("Select Crop")
                 .items(getResources().getStringArray(R.array.crop_name))
                 .autoDismiss(false)
                 .forceStacking(false)
@@ -258,6 +272,84 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    public void productionStateAnalysis(){
+        selectOption = -1;
+        MaterialDialog dialog = new MaterialDialog.Builder(MainActivity.this)
+                .title("Select State")
+                .items(getResources().getStringArray(R.array.state_name))
+                .autoDismiss(false)
+                .forceStacking(false)
+                .positiveText("Select")
+                .negativeText("Close")
+                .alwaysCallSingleChoiceCallback()
+                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+
+                        if (text != null) {
+                            selectOption = which;
+                            selectedText = text.toString();
+                        }
+                        return true;
+                    }
+                })
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                        materialDialog.dismiss();
+                        if (selectOption != -1) {
+                            singleProductionActivity(selectedText, "", "" + GlobalConstant.getPreviousYear(), GlobalConstant.TAG_AT_PRODUCTION);
+                        }
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                        materialDialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    public void productionCropAnalysis(){
+        selectOption = -1;
+        MaterialDialog dialog = new MaterialDialog.Builder(MainActivity.this)
+                .title("Select Crop")
+                .items(getResources().getStringArray(R.array.crop_name))
+                .autoDismiss(false)
+                .forceStacking(false)
+                .positiveText("Select")
+                .negativeText("Close")
+                .alwaysCallSingleChoiceCallback()
+                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+
+                        if (text != null) {
+                            selectOption = which;
+                            selectedText = text.toString();
+                        }
+                        return true;
+                    }
+                })
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                        materialDialog.dismiss();
+                        if (selectOption != -1) {
+                            singleProductionActivity("",selectedText, ""+GlobalConstant.getPreviousYear(), GlobalConstant.TAG_AT_PRODUCTION);
+                        }
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                        materialDialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
     /*
     private void displayView(int position) {
         // update the main content with called Fragment
@@ -269,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
                 bundle.putString(GlobalConstant.TAG_ANALYSIS_TYPE, "YIELD");
                 bundle.putString(GlobalConstant.TAG_STATE_NAME, "");
                 bundle.putString(GlobalConstant.TAG_CROP_NAME, "");
-                fragment = new HomeAllCropsFragment();
+                fragment = new CommonCropsCardListFragment();
                 fragment.setArguments(bundle);
                 fragmentID = 0;
                 break;
@@ -280,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
                 bundle.putString(GlobalConstant.TAG_ANALYSIS_TYPE, "YIELD");
                 bundle.putString(GlobalConstant.TAG_STATE_NAME, selectedText);
                 bundle.putString(GlobalConstant.TAG_CROP_NAME, "");
-                fragment = new HomeAllCropsFragment();
+                fragment = new CommonCropsCardListFragment();
                 fragment.setArguments(bundle);
                 fragmentID = 1;
                 break;
@@ -299,9 +391,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setText("Yield");
-        tabLayout.getTabAt(1).setText("Area Harvested");
-        tabLayout.getTabAt(2).setText("PRICE RECEIVED");
-        tabLayout.getTabAt(3).setText("Area PLANTED");
+        tabLayout.getTabAt(1).setText("PRICE RECEIVED");
+        tabLayout.getTabAt(2).setText("Area PLANTED");
+        //tabLayout.getTabAt(3).setText("Area Harvested");
     }
 
     @Override

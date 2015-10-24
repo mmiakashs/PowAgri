@@ -25,7 +25,7 @@ dependencies {
     compile 'com.android.support:design:23.0.1'
     compile files('libs/volley.jar')
     compile 'com.android.support:recyclerview-v7:22.2.+'
-    compile('com.mikepenz:materialdrawer:4.3.0@aar') {
+    compile('com.mikepenz:materialdrawer:4.3.9@aar') {
         transitive = true
     }
     compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
@@ -34,4 +34,5 @@ dependencies {
     compile('com.afollestad.material-dialogs:core:0.8.4.2@aar') {
         transitive = true
     }
+    compile 'com.github.johnkil.android-progressfragment:progressfragment:1.4.+'
 }

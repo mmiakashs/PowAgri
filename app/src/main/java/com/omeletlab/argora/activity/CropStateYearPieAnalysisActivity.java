@@ -111,9 +111,10 @@ public class CropStateYearPieAnalysisActivity extends AppCompatActivity {
                                     String year = item.getString("year");
                                     String value = item.getString("value");
                                     String statisticCategory = item.getString(GlobalConstant.TAG_statisticcat_desc);
+                                    String units = item.getString(GlobalConstant.TAG_unit_desc);
 
                                     if(TextUtils.isDigitsOnly(value.replaceAll(",", ""))) {
-                                        mCropList.add(new Crop(cropName, stateName, year, value, statisticCategory));
+                                        mCropList.add(new Crop(cropName, stateName, year, value, statisticCategory, units));
                                     }
                                 }
                                 Collections.sort(mCropList, new CropComparator());

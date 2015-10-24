@@ -36,6 +36,10 @@
             android:name=".activity.CompareSelectedCropActivity"
             android:label="@string/title_activity_compare" >
         </activity>
+        <activity
+            android:name=".activity.SingleItemAnalysisActivity"
+            android:label="@string/title_activity_single_item_analysis" >
+        </activity>
     </application>
 
 </manifest>

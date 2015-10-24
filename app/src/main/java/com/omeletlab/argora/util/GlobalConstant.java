@@ -31,11 +31,14 @@ public class GlobalConstant {
     public static final String TAG_commodity_desc = "commodity_desc";
     public static final String TAG_state_name = "state_name";
     public static final String TAG_freq_desc = "freq_desc";
+    public static final String TAG_unit_desc = "unit_desc";
+
+    public static final String TAG_AT_PRODUCTION = "PRODUCTION";
 
     public static final String TAG_CROP_NAME = "CROP_NAME";
     public static final String TAG_STATE_NAME = "STATE_NAME";
     public static final String TAG_ANALYSIS_TYPE = "ANALYSIS_TYPE";
-    public static final String TAG_YEAR = "YEAR";
+    public static final String TAG_YEAR = "year";
     public static final String TAG_isShowLoadingDialog="isShowLoadingDialog";
 
     public static final String TAG_FIRST_COMPARE_ITEM = "FIRST_COMPARE_ITEM";
@@ -45,6 +48,7 @@ public class GlobalConstant {
 
     public static final String TAG_YES = "YES";
     public static final String TAG_NO = "NO";
+    public static final String TAG_RELOAD = "RELOAD";
     public static final String LOGIN_USER_NAME = "login_username";
     public static final String NOT_LOGIN = "not_login";
 

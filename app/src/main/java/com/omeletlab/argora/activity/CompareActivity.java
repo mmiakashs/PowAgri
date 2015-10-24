@@ -3,6 +3,7 @@ package com.omeletlab.argora.activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -57,6 +58,7 @@ public class CompareActivity extends AppCompatActivity {
     private static String secondCompareItemName;
     private static String stateName;
     private static String statisticCategory;
+    private static String isReload="NO";
 
     private PlaceholderFragment placeHolderFragment;
 
@@ -74,12 +76,14 @@ public class CompareActivity extends AppCompatActivity {
         secondCompareItemName = intent.getStringExtra(GlobalConstant.TAG_SECOND_COMPARE_ITEM);
         stateName = intent.getStringExtra(GlobalConstant.TAG_state_name);
         statisticCategory = intent.getStringExtra(GlobalConstant.TAG_statisticcat_desc);
+        isReload = intent.getStringExtra(GlobalConstant.TAG_RELOAD);
 
         if (savedInstanceState == null) {
             placeHolderFragment = new PlaceholderFragment();
             placeHolderFragment.setRetainInstance(true);
             getSupportFragmentManager().beginTransaction().add(R.id.graphContainer, placeHolderFragment).commit();
         }
+
     }
 
     public static class PlaceholderFragment extends Fragment implements View.OnClickListener {
@@ -103,10 +107,10 @@ public class CompareActivity extends AppCompatActivity {
         private ArrayAdapter<CharSequence> secondCorpDataAdapter;
 
         public List<Crop> mFirstCompareItemList = new ArrayList<>();
-        public Map<String,Integer> uniqueFirstCompareValue = new HashMap<String,Integer>();
+        public Map<String,Long> uniqueFirstCompareValue = new HashMap<String,Long>();
 
         public List<Crop> mSecondCompareItemList = new ArrayList<>();
-        public Map<String,Integer> uniqueSecondCompareValue = new HashMap<String,Integer>();
+        public Map<String,Long> uniqueSecondCompareValue = new HashMap<String,Long>();
 
         private JSONArray cropsJsonArray;
 
@@ -116,11 +120,21 @@ public class CompareActivity extends AppCompatActivity {
         }
 
         @Override
+        public void onActivityCreated(Bundle savedInstanceState) {
+            super.onActivityCreated(savedInstanceState);
+            if(isReload.equals(GlobalConstant.TAG_YES)){
+                reloadCompare();
+            }
+        }
+
+        @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_compare, container, false);
 
             chartTop = (ColumnChartView) rootView.findViewById(R.id.chart_top);
             chartBottom = (ColumnChartView) rootView.findViewById(R.id.chart_bottom);
+            chartTop.setOnValueTouchListener(new ValueTouchListenerTopChart());
+            chartBottom.setOnValueTouchListener(new ValueTouchListenerBottomChart());
 
             stateChooser = (Spinner) rootView.findViewById(R.id.stateChooser);
             statisticCategoryChooser = (Spinner) rootView.findViewById(R.id.statisticCategoryChooser);
@@ -149,7 +163,7 @@ public class CompareActivity extends AppCompatActivity {
                 values = new ArrayList<SubcolumnValue>();
                 String valueFormatted = ""+uniqueFirstCompareValue.get(crop.getYear());
 
-                values.add(new SubcolumnValue(Float.parseFloat(valueFormatted), ChartUtils.pickColor()));
+                values.add(new SubcolumnValue(Float.parseFloat(valueFormatted), Color.parseColor("#388E3C")));
 
                 Column column = new Column(values);
                 column.setHasLabels(false);
@@ -165,18 +179,6 @@ public class CompareActivity extends AppCompatActivity {
             columnDataTop.setAxisYLeft(new Axis().setHasLines(true));
 
             chartTop.setColumnChartData(columnDataTop);
-            chartTop.setOnValueTouchListener(new ColumnChartOnValueSelectListener() {
-                @Override
-                public void onValueSelected(int i, int i1, SubcolumnValue subcolumnValue) {
-                    Crop crop = mSecondCompareItemList.get(i);
-                    String message = "Crop: " + secondCompareItemName + "(" + crop.getValue() + GlobalConstant.getUnitsName(statisticCategory) + ")";
-                    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onValueDeselected() {
-                }
-            });
         }
 
         private void generateBottomGraphData() {
@@ -190,7 +192,7 @@ public class CompareActivity extends AppCompatActivity {
                 values = new ArrayList<SubcolumnValue>();
                 String valueFormatted = ""+uniqueSecondCompareValue.get(crop.getYear());
 
-                values.add(new SubcolumnValue(Float.parseFloat(valueFormatted), ChartUtils.pickColor()));
+                values.add(new SubcolumnValue(Float.parseFloat(valueFormatted), Color.parseColor("#303F9F")));
 
                 Column column = new Column(values);
                 column.setHasLabels(false);
@@ -206,18 +208,6 @@ public class CompareActivity extends AppCompatActivity {
             columnDataBottom.setAxisYLeft(new Axis().setHasLines(true));
 
             chartBottom.setColumnChartData(columnDataBottom);
-            chartBottom.setOnValueTouchListener(new ColumnChartOnValueSelectListener() {
-                @Override
-                public void onValueSelected(int i, int i1, SubcolumnValue subcolumnValue) {
-                    Crop crop = mSecondCompareItemList.get(i);
-                    String message = "Crop: " + secondCompareItemName + "(" + crop.getValue() + GlobalConstant.getUnitsName(statisticCategory) + ")";
-                    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onValueDeselected() {
-                }
-            });
         }
 
         @Override
@@ -232,18 +222,35 @@ public class CompareActivity extends AppCompatActivity {
             }
         }
 
-        private class ValueTouchListener implements ColumnChartOnValueSelectListener {
+        private class ValueTouchListenerTopChart implements ColumnChartOnValueSelectListener {
 
             @Override
             public void onValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
+                Crop crop = mFirstCompareItemList.get(columnIndex);
+                String message = crop.getCropName()+":"+ crop.getValue() + " " + crop.getUnits()+ "("+ crop.getYear() +")";
+                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
             }
+            @Override
+            public void onValueDeselected() {
+            }
+        }
 
+        private class ValueTouchListenerBottomChart implements ColumnChartOnValueSelectListener {
+
+            @Override
+            public void onValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
+                Crop crop = mSecondCompareItemList.get(columnIndex);
+                String message = crop.getCropName()+":"+ crop.getValue() + " " + crop.getUnits()+ "("+ crop.getYear() +")";
+                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+            }
             @Override
             public void onValueDeselected() {
             }
         }
 
         private void reloadCompare(){
+            chartTop.setColumnChartData(new ColumnChartData());
+            chartBottom.setColumnChartData(new ColumnChartData());
             loadFirstCompareItemList(getFullUrl(firstCompareItemName));
         }
 
@@ -297,14 +304,15 @@ public class CompareActivity extends AppCompatActivity {
                                         String year = item.getString("year");
                                         String value = item.getString("value").replaceAll(",", "");
                                         String statisticCategory = item.getString(GlobalConstant.TAG_statisticcat_desc);
+                                        String units = item.getString(GlobalConstant.TAG_unit_desc);
 
                                         if (TextUtils.isDigitsOnly(value)) {
                                             if (!uniqueFirstCompareValue.containsKey(year)) {
-                                                uniqueFirstCompareValue.put(year, Integer.parseInt(value));
-                                                mFirstCompareItemList.add(new Crop(cropName, stateName, year, value, statisticCategory));
+                                                uniqueFirstCompareValue.put(year, Long.parseLong(value));
+                                                mFirstCompareItemList.add(new Crop(cropName, stateName, year, value, statisticCategory, units));
                                             } else {
-                                                Integer tempIn = uniqueFirstCompareValue.get(year);
-                                                uniqueFirstCompareValue.put(year, Math.max(Integer.parseInt(value), tempIn));
+                                                Long tempIn = uniqueFirstCompareValue.get(year);
+                                                uniqueFirstCompareValue.put(year, Math.max(Long.parseLong(value), tempIn));
                                             }
                                         }
                                     }
@@ -367,14 +375,15 @@ public class CompareActivity extends AppCompatActivity {
                                         String year = item.getString("year");
                                         String value = item.getString("value").replaceAll(",", "");
                                         String statisticCategory = item.getString(GlobalConstant.TAG_statisticcat_desc);
+                                        String units = item.getString(GlobalConstant.TAG_unit_desc);
 
                                         if (TextUtils.isDigitsOnly(value)) {
                                             if (!uniqueSecondCompareValue.containsKey(year)) {
-                                                uniqueSecondCompareValue.put(year, Integer.parseInt(value));
-                                                mSecondCompareItemList.add(new Crop(cropName, stateName, year, value, statisticCategory));
+                                                uniqueSecondCompareValue.put(year, Long.parseLong(value));
+                                                mSecondCompareItemList.add(new Crop(cropName, stateName, year, value, statisticCategory, units));
                                             } else {
-                                                Integer tempIn = uniqueSecondCompareValue.get(year);
-                                                uniqueSecondCompareValue.put(year, Math.max(Integer.parseInt(value), tempIn));
+                                                Long tempIn = uniqueSecondCompareValue.get(year);
+                                                uniqueSecondCompareValue.put(year, Math.max(Long.parseLong(value), tempIn));
                                             }
                                         }
                                     }

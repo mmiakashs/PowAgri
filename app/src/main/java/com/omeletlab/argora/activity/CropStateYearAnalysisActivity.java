@@ -2,6 +2,7 @@ package com.omeletlab.argora.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -55,7 +56,7 @@ public class CropStateYearAnalysisActivity extends AppCompatActivity {
     private String statisticCategory;
 
     public static final List<Crop> mCropList = new ArrayList<>();
-    public static Map<String,Integer> uniqueMapValue = new HashMap<String,Integer>();
+    public static Map<String,Long> uniqueMapValue = new HashMap<String,Long>();
     private JSONArray cropsJsonArray;
     private static PlaceholderFragment placeHolderFragment;
 
@@ -78,7 +79,7 @@ public class CropStateYearAnalysisActivity extends AppCompatActivity {
         cropName = in.getStringExtra(GlobalConstant.TAG_commodity_desc);
         stateName = in.getStringExtra(GlobalConstant.TAG_state_name);
         statisticCategory = in.getStringExtra(GlobalConstant.TAG_statisticcat_desc);
-        uniqueMapValue = new HashMap<String,Integer>();
+        uniqueMapValue = new HashMap<String,Long>();
 
         compareButton = (Button)findViewById(R.id.compareButton);
         compareButton.setOnClickListener(new View.OnClickListener(){
@@ -108,11 +109,12 @@ public class CropStateYearAnalysisActivity extends AppCompatActivity {
                             public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
                                 materialDialog.dismiss();
                                 if(selectedOption==-1) return;
-                                Intent in = new Intent(CropStateYearAnalysisActivity.this, CompareSelectedCropActivity.class);
+                                Intent in = new Intent(CropStateYearAnalysisActivity.this, CompareActivity.class);
                                 in.putExtra(GlobalConstant.TAG_FIRST_COMPARE_ITEM, cropName);
                                 in.putExtra(GlobalConstant.TAG_SECOND_COMPARE_ITEM, selectedCropName);
                                 in.putExtra(GlobalConstant.TAG_state_name, stateName);
                                 in.putExtra(GlobalConstant.TAG_statisticcat_desc, statisticCategory);
+                                in.putExtra(GlobalConstant.TAG_RELOAD, GlobalConstant.TAG_YES);
                                 startActivity(in);
                             }
                         })
@@ -183,15 +185,16 @@ public class CropStateYearAnalysisActivity extends AppCompatActivity {
                                     String year = item.getString("year");
                                     String value = item.getString("value").replaceAll(",", "");
                                     String statisticCategory = item.getString(GlobalConstant.TAG_statisticcat_desc);
+                                    String units = item.getString(GlobalConstant.TAG_unit_desc);
 
                                     if(TextUtils.isDigitsOnly(value)) {
                                         if(!uniqueMapValue.containsKey(year)){
-                                            uniqueMapValue.put(year, Integer.parseInt(value));
-                                            mCropList.add(new Crop(cropName, stateName, year, value, statisticCategory));
+                                            uniqueMapValue.put(year, Long.parseLong(value));
+                                            mCropList.add(new Crop(cropName, stateName, year, value, statisticCategory, units));
                                         }
                                         else{
-                                            Integer tempIn = uniqueMapValue.get(year);
-                                            uniqueMapValue.put(year, Math.max(Integer.parseInt(value), tempIn));
+                                            Long tempIn = uniqueMapValue.get(year);
+                                            uniqueMapValue.put(year, Math.max(Long.parseLong(value), tempIn));
                                         }
                                     }
                                 }
@@ -252,7 +255,7 @@ public class CropStateYearAnalysisActivity extends AppCompatActivity {
                 values = new ArrayList<SubcolumnValue>();
                 String valueFormatted = ""+uniqueMapValue.get(crop.getYear());
 
-                values.add(new SubcolumnValue(Float.parseFloat(valueFormatted), ChartUtils.pickColor()));
+                values.add(new SubcolumnValue(Float.parseFloat(valueFormatted), Color.parseColor("#388E3C")));
 
                 Column column = new Column(values);
                 column.setHasLabels(false);
@@ -276,7 +279,7 @@ public class CropStateYearAnalysisActivity extends AppCompatActivity {
             @Override
             public void onValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
                 Crop crop = mCropList.get(columnIndex);
-                String message = "Crop:"+crop.getCropName()+ "(" + value + " " + GlobalConstant.getUnitsName(crop.getStatisticCategory())+")";
+                String message = crop.getCropName()+":"+ crop.getValue() + " " + crop.getUnits()+ "("+ crop.getYear() +")";
                 Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
             }
             @Override

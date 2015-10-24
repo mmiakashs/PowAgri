@@ -7,4 +7,7 @@
     <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">#4CAF50</color>
     <color name="tab_indicator">#FFFFFF</color>
+
+    <color name="material_drawer_selected_text">#536EEA</color>
+    <color name="material_drawer_dark_selected_text">#536EEA</color>
 </resources>

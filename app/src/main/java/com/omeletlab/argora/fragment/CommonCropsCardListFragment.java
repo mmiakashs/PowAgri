@@ -2,12 +2,7 @@ package com.omeletlab.argora.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -22,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.devspark.progressfragment.ProgressFragment;
 import com.omeletlab.argora.R;
 import com.omeletlab.argora.adapter.RVAdapter;
 import com.omeletlab.argora.model.Crop;
@@ -41,12 +37,11 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.jar.Attributes;
 
 /**
  * Created by akashs on 10/21/15.
  */
-public class HomeAllCropsFragment extends Fragment {
+public class CommonCropsCardListFragment extends ProgressFragment {
 
     private final List<Crop> mCropList = new ArrayList<>();
     private JSONArray cropsJsonArray;
@@ -60,7 +55,14 @@ public class HomeAllCropsFragment extends Fragment {
     private String analysisType = "";
     private String isShowLoadingDialog = "YES";
 
-    public HomeAllCropsFragment() {
+    public CommonCropsCardListFragment() {
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        setContentShown(false);
     }
 
     @Override
@@ -140,19 +142,20 @@ public class HomeAllCropsFragment extends Fragment {
 
             @Override
             public void onResponse(JSONObject response) {
+                Log.d("nass response",response.toString());
+                hidepDialog();
                 if(TextUtils.isEmpty(response.toString()) || response.toString().length()<200){
-                    hidepDialog();
                     Toast.makeText(getActivity(), "No data is available at this moment.", Toast.LENGTH_LONG).show();
                 }
 
                 try {
                     cropsJsonArray = response.getJSONArray("data");
-                    HomeAllCropsFragment.this.getActivity().runOnUiThread(new Runnable() {
+                    CommonCropsCardListFragment.this.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
                                 mCropList.clear();
-                                Map<String,Integer> nap = new HashMap<String, Integer>();
+                                Map<String,Long> nap = new HashMap<String, Long>();
                                 for (int i = 0; i < cropsJsonArray.length(); i++) {
                                     JSONObject item = cropsJsonArray.getJSONObject(i);
 
@@ -161,26 +164,28 @@ public class HomeAllCropsFragment extends Fragment {
                                     String year = item.getString("year");
                                     String value = item.getString("value");
                                     String statisticCategory = item.getString(GlobalConstant.TAG_statisticcat_desc);
+                                    String units = item.getString(GlobalConstant.TAG_unit_desc);
 
                                     if (TextUtils.isDigitsOnly(value.replaceAll(",", ""))) {
                                         String uniqueKey = cropName+year+stateName;
                                         if(nap.containsKey(uniqueKey)){
-                                            nap.put(uniqueKey,Math.max(nap.get(uniqueKey),Integer.valueOf(value.replaceAll(",",""))));
+                                            nap.put(uniqueKey,Math.max(nap.get(uniqueKey),Long.valueOf(value.replaceAll(",",""))));
                                             continue;
                                         }
-                                        nap.put(uniqueKey,Integer.valueOf(value.replaceAll(",","")));
+                                        nap.put(uniqueKey,Long.valueOf(value.replaceAll(",","")));
 
-                                        mCropList.add(new Crop(cropName, stateName, year, value, statisticCategory));
+                                        mCropList.add(new Crop(cropName, stateName, year, value, statisticCategory, units));
                                     }
                                 }
                                 for(int i=0;i<mCropList.size();i++){
                                     Crop crop = mCropList.get(i);
                                     String uniqueKey = crop.getCropName()+crop.getYear()+crop.getStateName();
                                     mCropList.get(i).setValue( NumberFormat.getInstance().format(nap.get(uniqueKey)));
+                                    rvAdapter.notifyItemInserted(i);
                                 }
+                                setContentShown(true);
                                 Collections.sort(mCropList, new CropComparator());
                                 rvAdapter.notifyDataSetChanged();
-
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -192,7 +197,6 @@ public class HomeAllCropsFragment extends Fragment {
                     hidepDialog();
                     e.printStackTrace();
                 }
-                hidepDialog();
             }
         }, new Response.ErrorListener() {
             @Override
