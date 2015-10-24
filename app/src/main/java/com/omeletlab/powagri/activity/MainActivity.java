@@ -1,7 +1,6 @@
-package com.omeletlab.argora.activity;
+package com.omeletlab.powagri.activity;
 
 import android.content.Intent;
-import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -18,13 +17,12 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.omeletlab.argora.R;
-import com.omeletlab.argora.adapter.ViewPagerAdapter;
-import com.omeletlab.argora.fragment.CommonCropsCardListFragment;
-import com.omeletlab.argora.model.CustomPrimaryDrawerItem;
-import com.omeletlab.argora.util.GlobalConstant;
+import com.omeletlab.powagri.R;
+import com.omeletlab.powagri.adapter.ViewPagerAdapter;
+import com.omeletlab.powagri.fragment.CommonCropsCardListFragment;
+import com.omeletlab.powagri.model.CustomPrimaryDrawerItem;
+import com.omeletlab.powagri.util.GlobalConstant;
 
 public class MainActivity extends AppCompatActivity {
 

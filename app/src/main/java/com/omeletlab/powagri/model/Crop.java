@@ -1,4 +1,4 @@
-package com.omeletlab.argora.model;
+package com.omeletlab.powagri.model;
 
 /**
  * Created by akashs on 10/21/15.

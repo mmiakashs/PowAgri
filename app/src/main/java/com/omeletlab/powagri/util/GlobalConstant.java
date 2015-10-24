@@ -1,4 +1,4 @@
-package com.omeletlab.argora.util;
+package com.omeletlab.powagri.util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,8 +6,6 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
-import java.util.jar.Attributes;
 
 /**
  * Created by akashs on 9/23/15.

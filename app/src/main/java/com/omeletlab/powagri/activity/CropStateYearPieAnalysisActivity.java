@@ -1,4 +1,4 @@
-package com.omeletlab.argora.activity;
+package com.omeletlab.powagri.activity;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -18,11 +18,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.omeletlab.argora.R;
-import com.omeletlab.argora.model.Crop;
-import com.omeletlab.argora.util.AppController;
-import com.omeletlab.argora.util.GlobalConstant;
-import com.omeletlab.argora.util.NameValuePair;
+import com.omeletlab.powagri.R;
+import com.omeletlab.powagri.model.Crop;
+import com.omeletlab.powagri.util.AppController;
+import com.omeletlab.powagri.util.GlobalConstant;
+import com.omeletlab.powagri.util.NameValuePair;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,9 +31,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import lecho.lib.hellocharts.listener.PieChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.PieChartData;

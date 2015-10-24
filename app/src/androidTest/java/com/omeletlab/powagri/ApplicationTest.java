@@ -1,4 +1,4 @@
-package com.omeletlab.argora;
+package com.omeletlab.powagri;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

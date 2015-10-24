@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.omeletlab.argora" >
+    package="com.omeletlab.powagri" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".util.AppController"
+        android:name="com.omeletlab.powagri.util.AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/MyMaterialTheme" >
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.omeletlab.powagri.activity.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,23 +21,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.CommonAnalysisListActivity"
+            android:name="com.omeletlab.powagri.activity.CommonAnalysisListActivity"
             android:label="@string/title_activity_crop_analysis" >
         </activity>
         <activity
-            android:name=".activity.CropStateYearAnalysisActivity"
+            android:name="com.omeletlab.powagri.activity.CropStateYearAnalysisActivity"
             android:label="@string/year_based_fixed_state_crop_analysis" >
         </activity>
         <activity
-            android:name=".activity.CompareActivity"
+            android:name="com.omeletlab.powagri.activity.CompareActivity"
             android:label="@string/title_activity_compare" >
         </activity>
         <activity
-            android:name=".activity.CompareSelectedCropActivity"
+            android:name="com.omeletlab.powagri.activity.CompareSelectedCropActivity"
             android:label="@string/title_activity_compare" >
         </activity>
         <activity
-            android:name=".activity.SingleItemAnalysisActivity"
+            android:name="com.omeletlab.powagri.activity.SingleItemAnalysisActivity"
             android:label="@string/title_activity_single_item_analysis" >
         </activity>
     </application>

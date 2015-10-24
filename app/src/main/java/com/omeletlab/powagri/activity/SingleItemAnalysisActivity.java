@@ -1,4 +1,4 @@
-package com.omeletlab.argora.activity;
+package com.omeletlab.powagri.activity;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
@@ -11,9 +11,9 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.omeletlab.argora.R;
-import com.omeletlab.argora.fragment.CommonCropsCardListFragment;
-import com.omeletlab.argora.util.GlobalConstant;
+import com.omeletlab.powagri.R;
+import com.omeletlab.powagri.fragment.CommonCropsCardListFragment;
+import com.omeletlab.powagri.util.GlobalConstant;
 
 public class SingleItemAnalysisActivity extends AppCompatActivity {
 

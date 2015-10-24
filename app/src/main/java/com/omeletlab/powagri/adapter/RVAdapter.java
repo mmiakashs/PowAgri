@@ -1,4 +1,4 @@
-package com.omeletlab.argora.adapter;
+package com.omeletlab.powagri.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,10 +11,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
-import com.omeletlab.argora.R;
-import com.omeletlab.argora.activity.CropStateYearAnalysisActivity;
-import com.omeletlab.argora.model.Crop;
-import com.omeletlab.argora.util.GlobalConstant;
+import com.omeletlab.powagri.R;
+import com.omeletlab.powagri.activity.CropStateYearAnalysisActivity;
+import com.omeletlab.powagri.model.Crop;
+import com.omeletlab.powagri.util.GlobalConstant;
 
 import java.util.List;
 

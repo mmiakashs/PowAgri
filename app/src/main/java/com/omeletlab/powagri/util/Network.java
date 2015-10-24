@@ -1,4 +1,4 @@
-package com.omeletlab.argora.util;
+package com.omeletlab.powagri.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

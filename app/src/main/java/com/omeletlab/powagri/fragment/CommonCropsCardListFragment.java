@@ -1,4 +1,4 @@
-package com.omeletlab.argora.fragment;
+package com.omeletlab.powagri.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -18,13 +18,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.devspark.progressfragment.ProgressFragment;
-import com.omeletlab.argora.R;
-import com.omeletlab.argora.adapter.RVAdapter;
-import com.omeletlab.argora.model.Crop;
-import com.omeletlab.argora.util.AppController;
-import com.omeletlab.argora.util.GlobalConstant;
-import com.omeletlab.argora.util.NameValuePair;
-import com.omeletlab.argora.util.Network;
+import com.omeletlab.powagri.R;
+import com.omeletlab.powagri.adapter.RVAdapter;
+import com.omeletlab.powagri.model.Crop;
+import com.omeletlab.powagri.util.AppController;
+import com.omeletlab.powagri.util.GlobalConstant;
+import com.omeletlab.powagri.util.NameValuePair;
+import com.omeletlab.powagri.util.Network;
 
 import org.json.JSONArray;
 import org.json.JSONException;

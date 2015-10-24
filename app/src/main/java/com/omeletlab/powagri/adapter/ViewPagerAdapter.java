@@ -1,4 +1,4 @@
-package com.omeletlab.argora.adapter;
+package com.omeletlab.powagri.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

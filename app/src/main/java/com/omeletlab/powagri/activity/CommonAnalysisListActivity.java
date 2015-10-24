@@ -1,4 +1,4 @@
-package com.omeletlab.argora.activity;
+package com.omeletlab.powagri.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +11,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.mikepenz.materialdrawer.Drawer;
-import com.omeletlab.argora.R;
-import com.omeletlab.argora.adapter.ViewPagerAdapter;
-import com.omeletlab.argora.fragment.CommonCropsCardListFragment;
-import com.omeletlab.argora.util.GlobalConstant;
+import com.omeletlab.powagri.R;
+import com.omeletlab.powagri.adapter.ViewPagerAdapter;
+import com.omeletlab.powagri.fragment.CommonCropsCardListFragment;
+import com.omeletlab.powagri.util.GlobalConstant;
 
 public class CommonAnalysisListActivity extends AppCompatActivity {
 
