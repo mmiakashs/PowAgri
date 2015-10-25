@@ -35,4 +35,5 @@ dependencies {
         transitive = true
     }
     compile 'com.github.johnkil.android-progressfragment:progressfragment:1.4.+'
+    compile 'com.github.paolorotolo:appintro:3.2.0'
 }
