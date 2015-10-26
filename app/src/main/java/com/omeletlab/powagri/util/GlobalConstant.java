@@ -33,6 +33,12 @@ public class GlobalConstant {
 
     public static final String TAG_AT_PRODUCTION = "PRODUCTION";
 
+    public static final String TAG_EXPENSES_TYPE = "EXPENSES_TYPE";
+    public static final String TAG_FERTILIZER_EXPENSES_TYPE = "FERTILIZER TOTALS";
+    public static final String TAG_CHEMICAL_EXPENSES_TYPE = "CHEMICAL TOTALS";
+    public static final String TAG_LABOR_EXPENSES_TYPE = "LABOR";
+    public static final String TAG_TOTAL_OPERATION_EXPENSES_TYPE = "EXPENSE TOTALS";
+
     public static final String TAG_CROP_NAME = "CROP_NAME";
     public static final String TAG_STATE_NAME = "STATE_NAME";
     public static final String TAG_ANALYSIS_TYPE = "ANALYSIS_TYPE";
@@ -44,6 +50,7 @@ public class GlobalConstant {
 
     public static final String UNITS_YEILD = "BU/ACRE";
 
+    public static final String TAG_APP_INTRO = "APP_INTRO";
     public static final String TAG_YES = "YES";
     public static final String TAG_NO = "NO";
     public static final String TAG_RELOAD = "RELOAD";
@@ -59,9 +66,11 @@ public class GlobalConstant {
             String value = item.getValue();
             value = value.replaceAll(" ","%20");
             value = value.replaceAll("&","%26");
+            value = value.replaceAll(",","%2C");
 
             key = key.replaceAll(" ","%20");
             key = key.replaceAll("&","%26");
+            key = key.replaceAll(",","%2C");
 
             if(value!=null){
                 if(firstFlag){

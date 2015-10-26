@@ -177,7 +177,7 @@ public class CompareSelectedCropActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("Volley library error in login activity", "Error: " + error.getMessage());
+                VolleyLog.d("Volley library", "Error: " + error.getMessage());
             }
         });
 
@@ -245,7 +245,7 @@ public class CompareSelectedCropActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("Volley library error in login activity", "Error: " + error.getMessage());
+                VolleyLog.d("Volley library", "Error: " + error.getMessage());
             }
         });
 

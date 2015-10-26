@@ -6,13 +6,13 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="com.omeletlab.powagri.util.AppController"
+        android:name=".util.AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/MyMaterialTheme" >
         <activity
-            android:name="com.omeletlab.powagri.activity.MainActivity"
+            android:name=".activity.AppIntroActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,24 +21,32 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.omeletlab.powagri.activity.CommonAnalysisListActivity"
+            android:name=".activity.MainActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".activity.CommonAnalysisListActivity"
             android:label="@string/title_activity_crop_analysis" >
         </activity>
         <activity
-            android:name="com.omeletlab.powagri.activity.CropStateYearAnalysisActivity"
+            android:name=".activity.CropStateYearAnalysisActivity"
             android:label="@string/year_based_fixed_state_crop_analysis" >
         </activity>
         <activity
-            android:name="com.omeletlab.powagri.activity.CompareActivity"
+            android:name=".activity.CompareActivity"
             android:label="@string/title_activity_compare" >
         </activity>
         <activity
-            android:name="com.omeletlab.powagri.activity.CompareSelectedCropActivity"
+            android:name=".activity.CompareSelectedCropActivity"
             android:label="@string/title_activity_compare" >
         </activity>
         <activity
-            android:name="com.omeletlab.powagri.activity.SingleItemAnalysisActivity"
+            android:name=".activity.SingleItemAnalysisActivity"
             android:label="@string/title_activity_single_item_analysis" >
+        </activity>
+        <activity
+            android:name=".activity.ExpensesActivity"
+            android:label="@string/title_activity_expenses" >
         </activity>
     </application>
 

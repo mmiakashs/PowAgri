@@ -6,7 +6,7 @@
     <string name="year_based_fixed_state_crop_analysis">Year Based Analysis</string>
 
     <!-- Navigation drawer item -->
-    <string name="nav_item_home">Home</string>
+    <string name="nav_item_home">Home - Power Crops</string>
     <string name="nav_item_product_based_analysis">Crop Based Analysis</string>
     <string name="nav_item_state_based_analysis">State Based Analysis</string>
     <string name="nav_item_compare_production_analysis">Production Analysis</string>
@@ -15,9 +15,14 @@
     <string name="nav_item_area_harvested_based_analysis">Area Harvested Analysis</string>
     <string name="nav_item_price_received_analysis">Price Received Analysis</string>
     <string name="nav_item_area_planted_based_analysis">Area Planted Analysis</string>
-
+    <string name="nav_item_expenses_analysis">Expenses Analysis - State Based</string>
     <string name="nav_sub_item_production_state_analysis">State Productivity</string>
     <string name="nav_sub_item_production_crop_analysis">Crop Productivity</string>
+    <string name="nav_sub_item_total_operation_analysis">Total Operation Expenses</string>
+    <string name="nav_sub_item_fertilizer_analysis">Fertilizer Expenses</string>
+    <string name="nav_sub_item_chemical_analysis">Chemical Expenses</string>
+    <string name="nav_sub_item_labor_analysis">Labor Expenses</string>
+    <string name="nav_app_intro">App Intro</string>
 
     <string name="title_activity_compare">Compare Crops</string>
     <string name="title_activity_crop_analysis">Crop Analysis</string>
@@ -25,5 +30,7 @@
 
     <!--  -->
     <string name="loading_crop_text">Loading power crops. Please wait...</string>
+    <string name="title_activity_app_intro">AppIntroActivity</string>
+    <string name="title_activity_expenses">ExpensesActivity</string>
 
 </resources>

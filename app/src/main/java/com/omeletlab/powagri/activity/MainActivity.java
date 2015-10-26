@@ -17,6 +17,7 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.omeletlab.powagri.R;
 import com.omeletlab.powagri.adapter.ViewPagerAdapter;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private int fragmentID;
     private Bundle bundle;
     private View parentLayout;
+    private String expenseType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +61,17 @@ public class MainActivity extends AppCompatActivity {
         PrimaryDrawerItem productBasedAnalysisDrawerItem = new PrimaryDrawerItem().withName(R.string.nav_item_product_based_analysis);
         PrimaryDrawerItem stateBasedDrawerItem = new PrimaryDrawerItem().withName(R.string.nav_item_state_based_analysis);
         PrimaryDrawerItem compareBasedDrawerItem = new CustomPrimaryDrawerItem().withName(R.string.nav_item_compare_crops_analysis);
-        PrimaryDrawerItem productionAnalysisDrawerItem = new CustomPrimaryDrawerItem().withBackgroundColor(R.color.accent).withName(R.string.nav_item_compare_production_analysis).withSelectable(false);
+        //PrimaryDrawerItem productionAnalysisDrawerItem = new CustomPrimaryDrawerItem().withBackgroundColor(R.color.accent).withName(R.string.nav_item_compare_production_analysis).withSelectable(false);
+        SectionDrawerItem productionAnalysisDrawerItem = new SectionDrawerItem().withName(R.string.nav_item_compare_production_analysis).withSelectable(false);
+        SectionDrawerItem expensesAnalysisDrawerItem = new SectionDrawerItem().withName(R.string.nav_item_expenses_analysis).withSelectable(false);
 
-        SecondaryDrawerItem stateProductivity = new SecondaryDrawerItem().withName(R.string.nav_sub_item_production_state_analysis);
-        SecondaryDrawerItem cropProductivity = new SecondaryDrawerItem().withName(R.string.nav_sub_item_production_crop_analysis);
+        PrimaryDrawerItem stateProductivity = new PrimaryDrawerItem().withName(R.string.nav_sub_item_production_state_analysis);
+        PrimaryDrawerItem cropProductivity = new PrimaryDrawerItem().withName(R.string.nav_sub_item_production_crop_analysis);
+
+        PrimaryDrawerItem totalOperationExpenses = new PrimaryDrawerItem().withName(R.string.nav_sub_item_total_operation_analysis);
+        PrimaryDrawerItem fertilizerExpenses = new PrimaryDrawerItem().withName(R.string.nav_sub_item_fertilizer_analysis);
+        PrimaryDrawerItem chemicalExpenses = new PrimaryDrawerItem().withName(R.string.nav_sub_item_chemical_analysis);
+        PrimaryDrawerItem laborExpenses = new PrimaryDrawerItem().withName(R.string.nav_sub_item_labor_analysis);
 
         SecondaryDrawerItem yieldAnalysis = new SecondaryDrawerItem().withName(R.string.nav_item_yield_based_analysis);
         SecondaryDrawerItem areaHarvestedAnalysis = new SecondaryDrawerItem().withName(R.string.nav_item_area_harvested_based_analysis);
@@ -81,11 +90,14 @@ public class MainActivity extends AppCompatActivity {
                         compareBasedDrawerItem, //Item 3
                         stateBasedDrawerItem,  //Item 4
                         productBasedAnalysisDrawerItem,  //Item 5
-                        new DividerDrawerItem(), //Item 6
-                        productionAnalysisDrawerItem, //Item 7
-                        stateProductivity,  //Item 8
-                        cropProductivity,  //Item 9
-                        new DividerDrawerItem()  //Item 10
+                        productionAnalysisDrawerItem, //Item 6
+                        stateProductivity,  //Item 7
+                        cropProductivity,  //Item 8
+                        expensesAnalysisDrawerItem, //Item 9
+                        totalOperationExpenses, //Item 10
+                        fertilizerExpenses, //Item 11
+                        chemicalExpenses, //Item 12
+                        laborExpenses //Item 13
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -101,11 +113,27 @@ public class MainActivity extends AppCompatActivity {
                         else if (position == 5) {
                             cropBasedAnalysis();
                         }
-                        else if (position == 8) {
+                        else if (position == 7) {
                             productionStateAnalysis();
                         }
-                        else if (position == 9) {
+                        else if (position == 8) {
                             productionCropAnalysis();
+                        }
+                        else if (position == 10) {
+                            expenseType = GlobalConstant.TAG_TOTAL_OPERATION_EXPENSES_TYPE;
+                            chooseStateExpenseAnalysis();
+                        }
+                        else if (position == 11) {
+                            expenseType = GlobalConstant.TAG_FERTILIZER_EXPENSES_TYPE;
+                            chooseStateExpenseAnalysis();
+                        }
+                        else if (position == 12) {
+                            expenseType = GlobalConstant.TAG_CHEMICAL_EXPENSES_TYPE;
+                            chooseStateExpenseAnalysis();
+                        }
+                        else if (position == 13) {
+                            expenseType = GlobalConstant.TAG_LABOR_EXPENSES_TYPE;
+                            chooseStateExpenseAnalysis();
                         }
                         return false;
                     }
@@ -113,9 +141,7 @@ public class MainActivity extends AppCompatActivity {
                 .withSelectedItemByPosition(1)
                 .build();
 
-        //displayView(1);
-
-        Snackbar.make(parentLayout, "You are showing previous year crops analysis acroos all state", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(parentLayout, "You will see the most valuable crops analysis acroos all states. Please wait for a while..", Snackbar.LENGTH_LONG).show();
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -181,6 +207,13 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(GlobalConstant.TAG_commodity_desc, cropName);
         intent.putExtra(GlobalConstant.TAG_year, year);
         intent.putExtra(GlobalConstant.TAG_statisticcat_desc, statisticCategory);
+        startActivity(intent);
+    }
+
+    public void expenseAnalysisActivity(){
+        Intent intent = new Intent(MainActivity.this, ExpensesActivity.class);
+        intent.putExtra(GlobalConstant.TAG_state_name, selectedText);
+        intent.putExtra(GlobalConstant.TAG_EXPENSES_TYPE, expenseType);
         startActivity(intent);
     }
 
@@ -336,6 +369,45 @@ public class MainActivity extends AppCompatActivity {
                         materialDialog.dismiss();
                         if (selectOption != -1) {
                             singleProductionActivity("",selectedText, ""+GlobalConstant.getPreviousYear(), GlobalConstant.TAG_AT_PRODUCTION);
+                        }
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                        materialDialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    public void chooseStateExpenseAnalysis(){
+        selectOption = -1;
+        MaterialDialog dialog = new MaterialDialog.Builder(MainActivity.this)
+                .title("Select State")
+                .items(getResources().getStringArray(R.array.state_name))
+                .autoDismiss(false)
+                .forceStacking(false)
+                .positiveText("Select")
+                .negativeText("Close")
+                .alwaysCallSingleChoiceCallback()
+                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+
+                        if (text != null) {
+                            selectOption = which;
+                            selectedText = text.toString();
+                        }
+                        return true;
+                    }
+                })
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                        materialDialog.dismiss();
+                        if (selectOption != -1) {
+                            expenseAnalysisActivity();
                         }
                     }
                 })
