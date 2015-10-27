@@ -1,12 +1,12 @@
 package com.omeletlab.powagri.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -16,13 +16,11 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.omeletlab.powagri.R;
 import com.omeletlab.powagri.adapter.ViewPagerAdapter;
 import com.omeletlab.powagri.fragment.CommonCropsCardListFragment;
-import com.omeletlab.powagri.model.CustomPrimaryDrawerItem;
 import com.omeletlab.powagri.util.GlobalConstant;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static int selectOption = 0;
     public static String selectedText = "";
-    private int fragmentID;
     private Bundle bundle;
     private View parentLayout;
     private String expenseType;
@@ -57,26 +54,21 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
 
-        PrimaryDrawerItem homeDrawerItem = new PrimaryDrawerItem().withName(R.string.nav_item_home);
-        PrimaryDrawerItem productBasedAnalysisDrawerItem = new PrimaryDrawerItem().withName(R.string.nav_item_product_based_analysis);
-        PrimaryDrawerItem stateBasedDrawerItem = new PrimaryDrawerItem().withName(R.string.nav_item_state_based_analysis);
-        PrimaryDrawerItem compareBasedDrawerItem = new CustomPrimaryDrawerItem().withName(R.string.nav_item_compare_crops_analysis);
-        //PrimaryDrawerItem productionAnalysisDrawerItem = new CustomPrimaryDrawerItem().withBackgroundColor(R.color.accent).withName(R.string.nav_item_compare_production_analysis).withSelectable(false);
+        PrimaryDrawerItem homeDrawerItem = new PrimaryDrawerItem().withName(R.string.nav_item_home).withIcon(R.mipmap.home_icon);
+        PrimaryDrawerItem productBasedAnalysisDrawerItem = new PrimaryDrawerItem().withName(R.string.nav_item_product_based_analysis).withIcon(R.mipmap.crop_based_analysis);
+        PrimaryDrawerItem stateBasedDrawerItem = new PrimaryDrawerItem().withName(R.string.nav_item_state_based_analysis).withIcon(R.mipmap.state_based_analysis);
+        PrimaryDrawerItem compareBasedDrawerItem = new PrimaryDrawerItem().withName(R.string.nav_item_compare_crops_analysis).withIcon(R.mipmap.compare_drawer);
+
         SectionDrawerItem productionAnalysisDrawerItem = new SectionDrawerItem().withName(R.string.nav_item_compare_production_analysis).withSelectable(false);
         SectionDrawerItem expensesAnalysisDrawerItem = new SectionDrawerItem().withName(R.string.nav_item_expenses_analysis).withSelectable(false);
 
-        PrimaryDrawerItem stateProductivity = new PrimaryDrawerItem().withName(R.string.nav_sub_item_production_state_analysis);
-        PrimaryDrawerItem cropProductivity = new PrimaryDrawerItem().withName(R.string.nav_sub_item_production_crop_analysis);
+        PrimaryDrawerItem stateProductivity = new PrimaryDrawerItem().withName(R.string.nav_sub_item_production_state_analysis).withIcon(R.mipmap.state_productivity);
+        PrimaryDrawerItem cropProductivity = new PrimaryDrawerItem().withName(R.string.nav_sub_item_production_crop_analysis).withIcon(R.mipmap.crop_productivity);
 
-        PrimaryDrawerItem totalOperationExpenses = new PrimaryDrawerItem().withName(R.string.nav_sub_item_total_operation_analysis);
-        PrimaryDrawerItem fertilizerExpenses = new PrimaryDrawerItem().withName(R.string.nav_sub_item_fertilizer_analysis);
-        PrimaryDrawerItem chemicalExpenses = new PrimaryDrawerItem().withName(R.string.nav_sub_item_chemical_analysis);
-        PrimaryDrawerItem laborExpenses = new PrimaryDrawerItem().withName(R.string.nav_sub_item_labor_analysis);
-
-        SecondaryDrawerItem yieldAnalysis = new SecondaryDrawerItem().withName(R.string.nav_item_yield_based_analysis);
-        SecondaryDrawerItem areaHarvestedAnalysis = new SecondaryDrawerItem().withName(R.string.nav_item_area_harvested_based_analysis);
-        SecondaryDrawerItem areaPlantedAnalysis = new SecondaryDrawerItem().withName(R.string.nav_item_area_planted_based_analysis);
-        SecondaryDrawerItem priceReceivedAnalysis = new SecondaryDrawerItem().withName(R.string.nav_item_price_received_analysis);
+        PrimaryDrawerItem totalOperationExpenses = new PrimaryDrawerItem().withName(R.string.nav_sub_item_total_operation_analysis).withIcon(R.mipmap.expense_icon);
+        PrimaryDrawerItem fertilizerExpenses = new PrimaryDrawerItem().withName(R.string.nav_sub_item_fertilizer_analysis).withIcon(R.mipmap.price);
+        PrimaryDrawerItem chemicalExpenses = new PrimaryDrawerItem().withName(R.string.nav_sub_item_chemical_analysis).withIcon(R.mipmap.price);
+        PrimaryDrawerItem laborExpenses = new PrimaryDrawerItem().withName(R.string.nav_sub_item_labor_analysis).withIcon(R.mipmap.price);
 
         result = new DrawerBuilder()
                 .withActivity(this)
@@ -103,35 +95,26 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (position == 1) {
-                        }
-                        else if (position == 3) {
+                        } else if (position == 3) {
                             compareActivity();
-                        }
-                        else if (position == 4) {
+                        } else if (position == 4) {
                             stateBasedAnalysis();
-                        }
-                        else if (position == 5) {
+                        } else if (position == 5) {
                             cropBasedAnalysis();
-                        }
-                        else if (position == 7) {
+                        } else if (position == 7) {
                             productionStateAnalysis();
-                        }
-                        else if (position == 8) {
+                        } else if (position == 8) {
                             productionCropAnalysis();
-                        }
-                        else if (position == 10) {
+                        } else if (position == 10) {
                             expenseType = GlobalConstant.TAG_TOTAL_OPERATION_EXPENSES_TYPE;
                             chooseStateExpenseAnalysis();
-                        }
-                        else if (position == 11) {
+                        } else if (position == 11) {
                             expenseType = GlobalConstant.TAG_FERTILIZER_EXPENSES_TYPE;
                             chooseStateExpenseAnalysis();
-                        }
-                        else if (position == 12) {
+                        } else if (position == 12) {
                             expenseType = GlobalConstant.TAG_CHEMICAL_EXPENSES_TYPE;
                             chooseStateExpenseAnalysis();
-                        }
-                        else if (position == 13) {
+                        } else if (position == 13) {
                             expenseType = GlobalConstant.TAG_LABOR_EXPENSES_TYPE;
                             chooseStateExpenseAnalysis();
                         }
@@ -167,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(fragmentPriceReceived, "PRICE RECEIVED");
 
         bundle = new Bundle();
-        bundle.putString(GlobalConstant.TAG_YEAR, ""+GlobalConstant.getPreviousYear());
+        bundle.putString(GlobalConstant.TAG_YEAR, "" + GlobalConstant.getPreviousYear());
         bundle.putString(GlobalConstant.TAG_ANALYSIS_TYPE, "AREA PLANTED");
         bundle.putString(GlobalConstant.TAG_STATE_NAME, "");
         bundle.putString(GlobalConstant.TAG_CROP_NAME, "");
@@ -191,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
-    public void compareActivity(){
+    public void compareActivity() {
         Intent intent = new Intent(MainActivity.this, CompareActivity.class);
         intent.putExtra(GlobalConstant.TAG_state_name, getResources().getStringArray(R.array.state_name)[0]);
         intent.putExtra(GlobalConstant.TAG_FIRST_COMPARE_ITEM, getResources().getStringArray(R.array.crop_name)[0]);
@@ -201,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void singleProductionActivity(String stateName, String cropName, String year, String statisticCategory){
+    public void singleProductionActivity(String stateName, String cropName, String year, String statisticCategory) {
         Intent intent = new Intent(MainActivity.this, SingleItemAnalysisActivity.class);
         intent.putExtra(GlobalConstant.TAG_state_name, stateName);
         intent.putExtra(GlobalConstant.TAG_commodity_desc, cropName);
@@ -210,14 +193,14 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void expenseAnalysisActivity(){
+    public void expenseAnalysisActivity() {
         Intent intent = new Intent(MainActivity.this, ExpensesActivity.class);
         intent.putExtra(GlobalConstant.TAG_state_name, selectedText);
         intent.putExtra(GlobalConstant.TAG_EXPENSES_TYPE, expenseType);
         startActivity(intent);
     }
 
-    public void stateBasedAnalysis(){
+    public void stateBasedAnalysis() {
         selectOption = -1;
         MaterialDialog dialog = new MaterialDialog.Builder(MainActivity.this)
                 .title("Select State")
@@ -246,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent in = new Intent(MainActivity.this, CommonAnalysisListActivity.class);
                             in.putExtra(GlobalConstant.TAG_commodity_desc, "");
                             in.putExtra(GlobalConstant.TAG_state_name, selectedText);
-                            in.putExtra(GlobalConstant.TAG_year, ""+GlobalConstant.getPreviousYear());
+                            in.putExtra(GlobalConstant.TAG_year, "" + GlobalConstant.getPreviousYear());
                             startActivity(in);
                         }
                     }
@@ -260,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    public void cropBasedAnalysis(){
+    public void cropBasedAnalysis() {
         selectOption = -1;
         MaterialDialog dialog = new MaterialDialog.Builder(MainActivity.this)
                 .title("Select Crop")
@@ -289,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent in = new Intent(MainActivity.this, CommonAnalysisListActivity.class);
                             in.putExtra(GlobalConstant.TAG_commodity_desc, selectedText);
                             in.putExtra(GlobalConstant.TAG_state_name, "");
-                            in.putExtra(GlobalConstant.TAG_year, ""+GlobalConstant.getPreviousYear());
+                            in.putExtra(GlobalConstant.TAG_year, "" + GlobalConstant.getPreviousYear());
                             startActivity(in);
                         }
                     }
@@ -303,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    public void productionStateAnalysis(){
+    public void productionStateAnalysis() {
         selectOption = -1;
         MaterialDialog dialog = new MaterialDialog.Builder(MainActivity.this)
                 .title("Select State")
@@ -342,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    public void productionCropAnalysis(){
+    public void productionCropAnalysis() {
         selectOption = -1;
         MaterialDialog dialog = new MaterialDialog.Builder(MainActivity.this)
                 .title("Select Crop")
@@ -368,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
                         materialDialog.dismiss();
                         if (selectOption != -1) {
-                            singleProductionActivity("",selectedText, ""+GlobalConstant.getPreviousYear(), GlobalConstant.TAG_AT_PRODUCTION);
+                            singleProductionActivity("", selectedText, "" + GlobalConstant.getPreviousYear(), GlobalConstant.TAG_AT_PRODUCTION);
                         }
                     }
                 })
@@ -381,7 +364,7 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    public void chooseStateExpenseAnalysis(){
+    public void chooseStateExpenseAnalysis() {
         selectOption = -1;
         MaterialDialog dialog = new MaterialDialog.Builder(MainActivity.this)
                 .title("Select State")
@@ -420,50 +403,10 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    /*
-    private void displayView(int position) {
-        // update the main content with called Fragment
-        Fragment fragment = null;
-        switch (position) {
-            case 1:
-                bundle = new Bundle();
-                bundle.putString(GlobalConstant.TAG_YEAR, "2014");
-                bundle.putString(GlobalConstant.TAG_ANALYSIS_TYPE, "YIELD");
-                bundle.putString(GlobalConstant.TAG_STATE_NAME, "");
-                bundle.putString(GlobalConstant.TAG_CROP_NAME, "");
-                fragment = new CommonCropsCardListFragment();
-                fragment.setArguments(bundle);
-                fragmentID = 0;
-                break;
-            case 2:
-                Log.d("selectStateName", selectedText);
-                Bundle bundle = new Bundle();
-                bundle.putString(GlobalConstant.TAG_YEAR, "2014");
-                bundle.putString(GlobalConstant.TAG_ANALYSIS_TYPE, "YIELD");
-                bundle.putString(GlobalConstant.TAG_STATE_NAME, selectedText);
-                bundle.putString(GlobalConstant.TAG_CROP_NAME, "");
-                fragment = new CommonCropsCardListFragment();
-                fragment.setArguments(bundle);
-                fragmentID = 1;
-                break;
-            default:
-                break;
-        }
-
-        if (fragment != null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
-        } else {
-            Log.e("this is mainActivity", "Error in else case");
-        }
-    }
-    */
-
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setText("Yield");
         tabLayout.getTabAt(1).setText("PRICE RECEIVED");
         tabLayout.getTabAt(2).setText("Area PLANTED");
-        //tabLayout.getTabAt(3).setText("Area Harvested");
     }
 
     @Override
@@ -474,5 +417,4 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
-
 }

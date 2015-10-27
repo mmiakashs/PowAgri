@@ -3,22 +3,18 @@ package com.omeletlab.powagri.model;
 /**
  * Created by akashs on 10/23/15.
  */
+
 import android.support.v7.widget.RecyclerView;
 
 import com.mikepenz.materialdrawer.holder.ColorHolder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 
-public class CustomPrimaryDrawerItem extends PrimaryDrawerItem {
+public class CustomSectionDrawerItem extends PrimaryDrawerItem {
 
     private ColorHolder background;
 
-    public CustomPrimaryDrawerItem withBackgroundColor(int backgroundColor) {
+    public CustomSectionDrawerItem withBackgroundColor(int backgroundColor) {
         this.background = ColorHolder.fromColor(backgroundColor);
-        return this;
-    }
-
-    public CustomPrimaryDrawerItem withBackgroundRes(int backgroundRes) {
-        this.background = ColorHolder.fromColorRes(backgroundRes);
         return this;
     }
 

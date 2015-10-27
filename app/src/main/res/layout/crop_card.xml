@@ -2,56 +2,67 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
-    >
+    android:padding="5dp">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cv"
         android:foreground="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        >
+        android:clickable="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            >
-
-            <ImageView
+            android:padding="10dp">
+            <!--
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/crop_image"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="16dp"
+                    />
+            -->
+            <LinearLayout
+                android:id="@+id/thumbnail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/person_photo"
+                android:padding="3dip"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginRight="16dp"
-                />
+                android:background="@mipmap/crop_common"
+                android:layout_marginRight="5dip">
+
+                <ImageView
+                    android:id="@+id/list_image"
+                    android:layout_width="50dip"
+                    android:layout_height="50dip" />
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/crop_name"
-                android:layout_toRightOf="@+id/person_photo"
+                android:layout_toRightOf="@+id/thumbnail"
                 android:layout_alignParentTop="true"
-                android:textSize="18sp"
-                />
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/state_name"
-                android:layout_toRightOf="@+id/person_photo"
-                android:layout_below="@+id/crop_name"
-                />
+                android:layout_toRightOf="@+id/thumbnail"
+                android:layout_below="@+id/crop_name" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/crop_value"
-                android:layout_toRightOf="@+id/person_photo"
-                android:layout_below="@+id/state_name"
-                />
+                android:layout_toRightOf="@+id/thumbnail"
+                android:layout_below="@+id/state_name" />
 
         </RelativeLayout>
 

@@ -3,32 +3,24 @@ package com.omeletlab.powagri.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.omeletlab.powagri.R;
-import com.omeletlab.powagri.fragment.CommonCropsCardListFragment;
 import com.omeletlab.powagri.model.Crop;
 import com.omeletlab.powagri.util.AppController;
 import com.omeletlab.powagri.util.GlobalConstant;
@@ -60,7 +52,7 @@ public class ExpensesActivity extends AppCompatActivity {
     private TextView analysisTypeTextView;
 
     public static final List<Crop> mCropList = new ArrayList<>();
-    public static Map<String,Long> uniqueMapValue = new HashMap<String,Long>();
+    public static Map<String, Long> uniqueMapValue = new HashMap<String, Long>();
     private JSONArray cropsJsonArray;
     private static PlaceholderFragment placeHolderFragment;
 
@@ -80,18 +72,15 @@ public class ExpensesActivity extends AppCompatActivity {
         Intent in = getIntent();
         expensesType = in.getStringExtra(GlobalConstant.TAG_EXPENSES_TYPE);
         stateName = in.getStringExtra(GlobalConstant.TAG_state_name);
-        uniqueMapValue = new HashMap<String,Long>();
+        uniqueMapValue = new HashMap<String, Long>();
 
-        if(expensesType.equals(GlobalConstant.TAG_FERTILIZER_EXPENSES_TYPE)) {
+        if (expensesType.equals(GlobalConstant.TAG_FERTILIZER_EXPENSES_TYPE)) {
             analysisTypeTextView.setText(R.string.nav_sub_item_fertilizer_analysis);
-        }
-        else if(expensesType.equals(GlobalConstant.TAG_CHEMICAL_EXPENSES_TYPE)) {
+        } else if (expensesType.equals(GlobalConstant.TAG_CHEMICAL_EXPENSES_TYPE)) {
             analysisTypeTextView.setText(R.string.nav_sub_item_chemical_analysis);
-        }
-        else if(expensesType.equals(GlobalConstant.TAG_LABOR_EXPENSES_TYPE)) {
+        } else if (expensesType.equals(GlobalConstant.TAG_LABOR_EXPENSES_TYPE)) {
             analysisTypeTextView.setText(R.string.nav_sub_item_labor_analysis);
-        }
-        else if(expensesType.equals(GlobalConstant.TAG_TOTAL_OPERATION_EXPENSES_TYPE)) {
+        } else if (expensesType.equals(GlobalConstant.TAG_TOTAL_OPERATION_EXPENSES_TYPE)) {
             analysisTypeTextView.setText(R.string.nav_sub_item_total_operation_analysis);
         }
 
@@ -107,7 +96,7 @@ public class ExpensesActivity extends AppCompatActivity {
         }
     }
 
-    public void loadCropsList(){
+    public void loadCropsList() {
         showpDialog();
 
         List<NameValuePair> params = new ArrayList<>();
@@ -121,22 +110,19 @@ public class ExpensesActivity extends AppCompatActivity {
         params.add(new NameValuePair("statisticcat_desc", "EXPENSE"));
         params.add(new NameValuePair("domain_desc", "TOTAL"));
 
-        if(expensesType.equals(GlobalConstant.TAG_FERTILIZER_EXPENSES_TYPE)) {
+        if (expensesType.equals(GlobalConstant.TAG_FERTILIZER_EXPENSES_TYPE)) {
             params.add(new NameValuePair("class_desc", "INCL LIME & SOIL CONDITIONERS"));
-        }
-        else if(expensesType.equals(GlobalConstant.TAG_CHEMICAL_EXPENSES_TYPE)) {
+        } else if (expensesType.equals(GlobalConstant.TAG_CHEMICAL_EXPENSES_TYPE)) {
             params.add(new NameValuePair("class_desc", "ALL CLASSES"));
-        }
-        else if(expensesType.equals(GlobalConstant.TAG_LABOR_EXPENSES_TYPE)) {
+        } else if (expensesType.equals(GlobalConstant.TAG_LABOR_EXPENSES_TYPE)) {
             params.add(new NameValuePair("class_desc", "HIRED & CONTRACT, INCL NON-CASH BENEFITS"));
-        }
-        else if(expensesType.equals(GlobalConstant.TAG_TOTAL_OPERATION_EXPENSES_TYPE)) {
+        } else if (expensesType.equals(GlobalConstant.TAG_TOTAL_OPERATION_EXPENSES_TYPE)) {
             params.add(new NameValuePair("class_desc", "OPERATING"));
         }
 
 
-        for(int i=2015;i>=1995;i--){
-            params.add(new NameValuePair(GlobalConstant.TAG_year+ "__or", ""+i));
+        for (int i = 2015; i >= 1995; i--) {
+            params.add(new NameValuePair(GlobalConstant.TAG_year + "__or", "" + i));
         }
 
         String fullUrl = GlobalConstant.urlBuilder(GlobalConstant.API_URL, params);
@@ -147,7 +133,7 @@ public class ExpensesActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(JSONObject response) {
-                if(TextUtils.isEmpty(response.toString()) || response.toString().length()<200){
+                if (TextUtils.isEmpty(response.toString()) || response.toString().length() < 200) {
                     hidepDialog();
                     Toast.makeText(ExpensesActivity.this, "No data is available for the choosen state: " + stateName, Toast.LENGTH_LONG).show();
                 }
@@ -169,12 +155,11 @@ public class ExpensesActivity extends AppCompatActivity {
                                     String statisticCategory = item.getString(GlobalConstant.TAG_statisticcat_desc);
                                     String units = item.getString(GlobalConstant.TAG_unit_desc);
 
-                                    if(TextUtils.isDigitsOnly(value)) {
-                                        if(!uniqueMapValue.containsKey(year)){
+                                    if (TextUtils.isDigitsOnly(value)) {
+                                        if (!uniqueMapValue.containsKey(year)) {
                                             uniqueMapValue.put(year, Long.parseLong(value));
                                             mCropList.add(new Crop(cropName, stateName, year, value, statisticCategory, units));
-                                        }
-                                        else{
+                                        } else {
                                             Long tempIn = uniqueMapValue.get(year);
                                             uniqueMapValue.put(year, Math.max(Long.parseLong(value), tempIn));
                                         }
@@ -232,11 +217,11 @@ public class ExpensesActivity extends AppCompatActivity {
             List<AxisValue> axisValues = new ArrayList<AxisValue>();
             List<Column> columns = new ArrayList<Column>();
             List<SubcolumnValue> values;
-            int i=0;
-            for (Crop crop: mCropList) {
+            int i = 0;
+            for (Crop crop : mCropList) {
 
                 values = new ArrayList<SubcolumnValue>();
-                String valueFormatted = ""+uniqueMapValue.get(crop.getYear());
+                String valueFormatted = "" + uniqueMapValue.get(crop.getYear());
 
                 values.add(new SubcolumnValue(Float.parseFloat(valueFormatted), Color.parseColor("#388E3C")));
 
@@ -262,9 +247,10 @@ public class ExpensesActivity extends AppCompatActivity {
             @Override
             public void onValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
                 Crop crop = mCropList.get(columnIndex);
-                String message = crop.getStateName()+":"+ crop.getValue() + " " + crop.getUnits()+ "("+ crop.getYear() +")";
+                String message = crop.getStateName() + ":" + crop.getValue() + " " + crop.getUnits() + "(" + crop.getYear() + ")";
                 Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onValueDeselected() {
             }
@@ -278,14 +264,14 @@ public class ExpensesActivity extends AppCompatActivity {
         public int compare(Crop s1, Crop s2) {
             int value1 = Integer.parseInt(s1.getYear());
             int value2 = Integer.parseInt(s2.getYear());
-            return (value1<value2)?1:(value1>value2?-1:0);
+            return (value1 < value2) ? 1 : (value1 > value2 ? -1 : 0);
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == android.R.id.home){
+        if (id == android.R.id.home) {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);

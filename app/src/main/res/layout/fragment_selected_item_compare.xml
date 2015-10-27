@@ -15,13 +15,13 @@
         android:id="@+id/compareItemNameOne"
         android:text="Compare Item one"
         android:textSize="20sp"
-        android:textColor="#000000"/>
+        android:textColor="#000000" />
+
     <lecho.lib.hellocharts.view.ColumnChartView
         android:id="@+id/chart_top"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" >
-    </lecho.lib.hellocharts.view.ColumnChartView>
+        android:layout_weight="1"></lecho.lib.hellocharts.view.ColumnChartView>
 
     <View
         android:layout_width="match_parent"
@@ -29,19 +29,19 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/darker_gray" />
+
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/compareItemNameTwo"
         android:text="Compare Item two"
         android:textSize="20sp"
-        android:textColor="#000000"/>
+        android:textColor="#000000" />
 
     <lecho.lib.hellocharts.view.ColumnChartView
         android:id="@+id/chart_bottom"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" >
-    </lecho.lib.hellocharts.view.ColumnChartView>
+        android:layout_weight="1"></lecho.lib.hellocharts.view.ColumnChartView>
 
 </LinearLayout>

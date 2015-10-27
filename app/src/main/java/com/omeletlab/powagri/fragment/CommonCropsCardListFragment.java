@@ -142,9 +142,9 @@ public class CommonCropsCardListFragment extends ProgressFragment {
 
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("nass response",response.toString());
+                Log.d("nass response", response.toString());
                 hidepDialog();
-                if(TextUtils.isEmpty(response.toString()) || response.toString().length()<200){
+                if (TextUtils.isEmpty(response.toString()) || response.toString().length() < 200) {
                     Toast.makeText(getActivity(), "No data is available at this moment.", Toast.LENGTH_LONG).show();
                 }
 
@@ -155,7 +155,7 @@ public class CommonCropsCardListFragment extends ProgressFragment {
                         public void run() {
                             try {
                                 mCropList.clear();
-                                Map<String,Long> nap = new HashMap<String, Long>();
+                                Map<String, Long> nap = new HashMap<String, Long>();
                                 for (int i = 0; i < cropsJsonArray.length(); i++) {
                                     JSONObject item = cropsJsonArray.getJSONObject(i);
 
@@ -167,20 +167,20 @@ public class CommonCropsCardListFragment extends ProgressFragment {
                                     String units = item.getString(GlobalConstant.TAG_unit_desc);
 
                                     if (TextUtils.isDigitsOnly(value.replaceAll(",", ""))) {
-                                        String uniqueKey = cropName+year+stateName;
-                                        if(nap.containsKey(uniqueKey)){
-                                            nap.put(uniqueKey,Math.max(nap.get(uniqueKey),Long.valueOf(value.replaceAll(",",""))));
+                                        String uniqueKey = cropName + year + stateName;
+                                        if (nap.containsKey(uniqueKey)) {
+                                            nap.put(uniqueKey, Math.max(nap.get(uniqueKey), Long.valueOf(value.replaceAll(",", ""))));
                                             continue;
                                         }
-                                        nap.put(uniqueKey,Long.valueOf(value.replaceAll(",","")));
+                                        nap.put(uniqueKey, Long.valueOf(value.replaceAll(",", "")));
 
                                         mCropList.add(new Crop(cropName, stateName, year, value, statisticCategory, units));
                                     }
                                 }
-                                for(int i=0;i<mCropList.size();i++){
+                                for (int i = 0; i < mCropList.size(); i++) {
                                     Crop crop = mCropList.get(i);
-                                    String uniqueKey = crop.getCropName()+crop.getYear()+crop.getStateName();
-                                    mCropList.get(i).setValue( NumberFormat.getInstance().format(nap.get(uniqueKey)));
+                                    String uniqueKey = crop.getCropName() + crop.getYear() + crop.getStateName();
+                                    mCropList.get(i).setValue(NumberFormat.getInstance().format(nap.get(uniqueKey)));
                                     rvAdapter.notifyItemInserted(i);
                                 }
                                 setContentShown(true);

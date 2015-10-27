@@ -17,7 +17,7 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:indeterminate="true"/>
+            android:indeterminate="true" />
 
         <TextView
             android:id="@+id/progress_text"
@@ -26,7 +26,7 @@
             android:paddingTop="4dp"
             android:text="@string/loading_crop_text"
             android:textSize="14sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <FrameLayout
@@ -49,7 +49,7 @@
             android:shadowRadius="4"
             android:textColor="#a00"
             android:textSize="18sp"
-            android:textStyle="bold|italic"/>
+            android:textStyle="bold|italic" />
     </FrameLayout>
 
     <android.support.v7.widget.RecyclerView

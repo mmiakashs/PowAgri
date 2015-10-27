@@ -13,33 +13,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <Spinner
             android:id="@+id/stateChooser"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"/>
+            android:layout_weight="2" />
+
         <Spinner
             android:id="@+id/statisticCategoryChooser"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"/>
+            android:layout_weight="2" />
+
         <ImageButton
             android:id="@+id/reloadButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="8dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            android:background="@mipmap/ic_launcher"/>
+            android:background="@mipmap/refresh" />
     </LinearLayout>
+
     <Spinner
         android:id="@+id/firstCompareItemChooser"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
+
     <lecho.lib.hellocharts.view.ColumnChartView
         android:id="@+id/chart_top"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" >
-    </lecho.lib.hellocharts.view.ColumnChartView>
+        android:layout_weight="1"></lecho.lib.hellocharts.view.ColumnChartView>
 
     <View
         android:layout_width="match_parent"
@@ -47,16 +51,16 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/darker_gray" />
+
     <Spinner
         android:id="@+id/secondCompareItemChooser"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <lecho.lib.hellocharts.view.ColumnChartView
         android:id="@+id/chart_bottom"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" >
-    </lecho.lib.hellocharts.view.ColumnChartView>
+        android:layout_weight="1"></lecho.lib.hellocharts.view.ColumnChartView>
 
 </LinearLayout>

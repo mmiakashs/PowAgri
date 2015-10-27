@@ -69,7 +69,7 @@ public class CropStateYearPieAnalysisActivity extends AppCompatActivity {
         }
     }
 
-    public void loadCropsList(){
+    public void loadCropsList() {
 
         List<NameValuePair> params = new ArrayList<>();
         params.add(new NameValuePair(GlobalConstant.TAG_commodity_desc, cropName));
@@ -111,7 +111,7 @@ public class CropStateYearPieAnalysisActivity extends AppCompatActivity {
                                     String statisticCategory = item.getString(GlobalConstant.TAG_statisticcat_desc);
                                     String units = item.getString(GlobalConstant.TAG_unit_desc);
 
-                                    if(TextUtils.isDigitsOnly(value.replaceAll(",", ""))) {
+                                    if (TextUtils.isDigitsOnly(value.replaceAll(",", ""))) {
                                         mCropList.add(new Crop(cropName, stateName, year, value, statisticCategory, units));
                                     }
                                 }
@@ -182,10 +182,10 @@ public class CropStateYearPieAnalysisActivity extends AppCompatActivity {
 
             List<SliceValue> values = new ArrayList<SliceValue>();
 
-            for(int i=0;i<20;i++) {
+            for (int i = 0; i < 20; i++) {
                 Crop crop = mCropList.get(i);
                 String valueFormatted = crop.getValue().replaceAll(",", "");
-                Log.d("graphValue",valueFormatted);
+                Log.d("graphValue", valueFormatted);
                 SliceValue sliceValue = new SliceValue(Float.parseFloat(valueFormatted), ChartUtils.pickColor());
                 values.add(sliceValue);
             }
@@ -297,7 +297,7 @@ public class CropStateYearPieAnalysisActivity extends AppCompatActivity {
 
             @Override
             public void onValueSelected(int arcIndex, SliceValue value) {
-                Toast.makeText(getActivity(), mCropList.get(arcIndex).getCropName()+":"+mCropList.get(arcIndex).getValue(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), mCropList.get(arcIndex).getCropName() + ":" + mCropList.get(arcIndex).getValue(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -317,7 +317,7 @@ public class CropStateYearPieAnalysisActivity extends AppCompatActivity {
             int value1 = Integer.parseInt(s1.getYear());
             int value2 = Integer.parseInt(s2.getYear());
 
-            return (value1<value2)?1:(value1>value2?-1:0);
+            return (value1 < value2) ? 1 : (value1 > value2 ? -1 : 0);
         }
 
     }

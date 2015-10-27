@@ -3,6 +3,7 @@ package com.omeletlab.powagri.fragment;
 /**
  * Created by akashs on 10/25/15.
  */
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,13 +27,14 @@ public class AppIntroSlideFragment extends Fragment {
 
     private int layoutResId;
 
-    public AppIntroSlideFragment() {}
+    public AppIntroSlideFragment() {
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(getArguments() != null && getArguments().containsKey(ARG_LAYOUT_RES_ID))
+        if (getArguments() != null && getArguments().containsKey(ARG_LAYOUT_RES_ID))
             layoutResId = getArguments().getInt(ARG_LAYOUT_RES_ID);
     }
 

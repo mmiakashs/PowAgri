@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.omeletlab.powagri.R;
@@ -27,8 +28,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CropViewHolder> {
 
     private int lastPosition = -1;
 
-    public RVAdapter(List<Crop> cropList, Activity activity)
-    {
+    public RVAdapter(List<Crop> cropList, Activity activity) {
         this.cropList = cropList;
         this.mActivity = activity;
     }
@@ -44,8 +44,21 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CropViewHolder> {
     public void onBindViewHolder(CropViewHolder holder, final int position) {
         Crop crop = cropList.get(position);
         holder.cropNameTextView.setText(crop.getCropName());
-        holder.stateNameTextView.setText(crop.getStateName()+" ("+crop.getYear()+")");
-        holder.cropValueTextView.setText(String.valueOf(crop.getValue()+"  "+crop.getUnits()));
+        holder.stateNameTextView.setText(crop.getStateName() + " (" + crop.getYear() + ")");
+        holder.cropValueTextView.setText(String.valueOf(crop.getValue() + "  " + crop.getUnits()));
+        if (crop.getCropName().equals("CORN")) {
+            holder.thumbnail.setBackgroundResource(R.mipmap.crop_corn);
+        } else if (crop.getCropName().equals("RICE")) {
+            holder.thumbnail.setBackgroundResource(R.mipmap.crop_rice);
+        } else if (crop.getCropName().equals("WHEAT")) {
+            holder.thumbnail.setBackgroundResource(R.mipmap.crop_wheat);
+        } else if (crop.getCropName().equals("PEANUTS")) {
+            holder.thumbnail.setBackgroundResource(R.mipmap.crop_peanuts);
+        } else if (crop.getCropName().equals("SOYBEANS")) {
+            holder.thumbnail.setBackgroundResource(R.mipmap.crop_soybeans);
+        } else {
+            holder.thumbnail.setBackgroundResource(R.mipmap.crop_common);
+        }
 
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,20 +91,20 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.CropViewHolder> {
         TextView cropNameTextView;
         TextView cropValueTextView;
         TextView stateNameTextView;
+        LinearLayout thumbnail;
 
         CropViewHolder(View itemView) {
             super(itemView);
             cv = (CardView) itemView.findViewById(R.id.cv);
+            thumbnail = (LinearLayout) itemView.findViewById(R.id.thumbnail);
             cropNameTextView = (TextView) itemView.findViewById(R.id.crop_name);
             stateNameTextView = (TextView) itemView.findViewById(R.id.state_name);
             cropValueTextView = (TextView) itemView.findViewById(R.id.crop_value);
         }
     }
 
-    private void setAnimation(View viewToAnimate, int position)
-    {
-        if (position > lastPosition)
-        {
+    private void setAnimation(View viewToAnimate, int position) {
+        if (position > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(mActivity, android.R.anim.slide_in_left);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;

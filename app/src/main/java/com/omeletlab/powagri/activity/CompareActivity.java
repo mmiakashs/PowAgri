@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -54,9 +55,10 @@ public class CompareActivity extends AppCompatActivity {
     private static String secondCompareItemName;
     private static String stateName;
     private static String statisticCategory;
-    private static String isReload="NO";
+    private static String isReload = "NO";
 
     private PlaceholderFragment placeHolderFragment;
+    private View parentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class CompareActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        parentLayout = findViewById(R.id.root_view);
 
         Intent intent = getIntent();
         firstCompareItemName = intent.getStringExtra(GlobalConstant.TAG_FIRST_COMPARE_ITEM);
@@ -79,7 +82,7 @@ public class CompareActivity extends AppCompatActivity {
             placeHolderFragment.setRetainInstance(true);
             getSupportFragmentManager().beginTransaction().add(R.id.graphContainer, placeHolderFragment).commit();
         }
-
+        Snackbar.make(parentLayout, "Select crops and press reload to compare the power crops..", Snackbar.LENGTH_LONG).show();
     }
 
     public static class PlaceholderFragment extends Fragment implements View.OnClickListener {
@@ -89,7 +92,6 @@ public class CompareActivity extends AppCompatActivity {
 
         private ColumnChartData columnDataTop;
         private ColumnChartData columnDataBottom;
-
 
 
         private Spinner stateChooser;
@@ -103,10 +105,10 @@ public class CompareActivity extends AppCompatActivity {
         private ArrayAdapter<CharSequence> secondCorpDataAdapter;
 
         public List<Crop> mFirstCompareItemList = new ArrayList<>();
-        public Map<String,Long> uniqueFirstCompareValue = new HashMap<String,Long>();
+        public Map<String, Long> uniqueFirstCompareValue = new HashMap<String, Long>();
 
         public List<Crop> mSecondCompareItemList = new ArrayList<>();
-        public Map<String,Long> uniqueSecondCompareValue = new HashMap<String,Long>();
+        public Map<String, Long> uniqueSecondCompareValue = new HashMap<String, Long>();
 
         private JSONArray cropsJsonArray;
 
@@ -118,7 +120,7 @@ public class CompareActivity extends AppCompatActivity {
         @Override
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
-            if(isReload.equals(GlobalConstant.TAG_YES)){
+            if (isReload.equals(GlobalConstant.TAG_YES)) {
                 reloadCompare();
             }
         }
@@ -129,6 +131,8 @@ public class CompareActivity extends AppCompatActivity {
 
             chartTop = (ColumnChartView) rootView.findViewById(R.id.chart_top);
             chartBottom = (ColumnChartView) rootView.findViewById(R.id.chart_bottom);
+            //chartTop.setColumnChartData(new ColumnChartData());
+            //chartBottom.setColumnChartData(new ColumnChartData());
             chartTop.setOnValueTouchListener(new ValueTouchListenerTopChart());
             chartBottom.setOnValueTouchListener(new ValueTouchListenerBottomChart());
 
@@ -153,11 +157,11 @@ public class CompareActivity extends AppCompatActivity {
             List<AxisValue> axisValues = new ArrayList<AxisValue>();
             List<Column> columns = new ArrayList<Column>();
             List<SubcolumnValue> values;
-            int i=0;
-            for (Crop crop: mFirstCompareItemList) {
+            int i = 0;
+            for (Crop crop : mFirstCompareItemList) {
 
                 values = new ArrayList<SubcolumnValue>();
-                String valueFormatted = ""+uniqueFirstCompareValue.get(crop.getYear());
+                String valueFormatted = "" + uniqueFirstCompareValue.get(crop.getYear());
 
                 values.add(new SubcolumnValue(Float.parseFloat(valueFormatted), Color.parseColor("#388E3C")));
 
@@ -182,11 +186,11 @@ public class CompareActivity extends AppCompatActivity {
             List<AxisValue> axisValues = new ArrayList<AxisValue>();
             List<Column> columns = new ArrayList<Column>();
             List<SubcolumnValue> values;
-            int i=0;
-            for (Crop crop: mSecondCompareItemList) {
+            int i = 0;
+            for (Crop crop : mSecondCompareItemList) {
 
                 values = new ArrayList<SubcolumnValue>();
-                String valueFormatted = ""+uniqueSecondCompareValue.get(crop.getYear());
+                String valueFormatted = "" + uniqueSecondCompareValue.get(crop.getYear());
 
                 values.add(new SubcolumnValue(Float.parseFloat(valueFormatted), Color.parseColor("#303F9F")));
 
@@ -208,7 +212,7 @@ public class CompareActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
-            if(view.getId() == R.id.reloadButton) {
+            if (view.getId() == R.id.reloadButton) {
                 Log.d("clickItemCompare", "yes");
                 firstCompareItemName = String.valueOf(firstCompareItemChooser.getSelectedItem());
                 secondCompareItemName = String.valueOf(secondCompareItemChooser.getSelectedItem());
@@ -222,10 +226,12 @@ public class CompareActivity extends AppCompatActivity {
 
             @Override
             public void onValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
+                if (mFirstCompareItemList.size() < 1) return;
                 Crop crop = mFirstCompareItemList.get(columnIndex);
-                String message = crop.getCropName()+":"+ crop.getValue() + " " + crop.getUnits()+ "("+ crop.getYear() +")";
+                String message = crop.getCropName() + ":" + crop.getValue() + " " + crop.getUnits() + "(" + crop.getYear() + ")";
                 Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onValueDeselected() {
             }
@@ -235,22 +241,24 @@ public class CompareActivity extends AppCompatActivity {
 
             @Override
             public void onValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
+                if (mSecondCompareItemList.size() < 1) return;
                 Crop crop = mSecondCompareItemList.get(columnIndex);
-                String message = crop.getCropName()+":"+ crop.getValue() + " " + crop.getUnits()+ "("+ crop.getYear() +")";
+                String message = crop.getCropName() + ":" + crop.getValue() + " " + crop.getUnits() + "(" + crop.getYear() + ")";
                 Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onValueDeselected() {
             }
         }
 
-        private void reloadCompare(){
+        private void reloadCompare() {
             chartTop.setColumnChartData(new ColumnChartData());
             chartBottom.setColumnChartData(new ColumnChartData());
             loadFirstCompareItemList(getFullUrl(firstCompareItemName));
         }
 
-        private String getFullUrl(String cropName){
+        private String getFullUrl(String cropName) {
             List<NameValuePair> params = new ArrayList<>();
             params.add(new NameValuePair(GlobalConstant.TAG_commodity_desc, cropName));
             params.add(new NameValuePair(GlobalConstant.TAG_state_name, stateName));
@@ -262,15 +270,15 @@ public class CompareActivity extends AppCompatActivity {
             params.add(new NameValuePair(GlobalConstant.TAG_sector_desc, "CROPS"));
             params.add(new NameValuePair(GlobalConstant.TAG_freq_desc, "ANNUAL"));
 
-            for(int i=2015;i>=1995;i--){
-                params.add(new NameValuePair(GlobalConstant.TAG_year+ "__or", ""+i));
+            for (int i = 2015; i >= 1995; i--) {
+                params.add(new NameValuePair(GlobalConstant.TAG_year + "__or", "" + i));
             }
 
             String fullUrl = GlobalConstant.urlBuilder(GlobalConstant.API_URL, params);
             return fullUrl;
         }
 
-        private void loadFirstCompareItemList(String fullUrl){
+        private void loadFirstCompareItemList(String fullUrl) {
             showpDialog();
             Log.d("first compare url", fullUrl);
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
@@ -279,9 +287,9 @@ public class CompareActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     Log.d("CropStateYear response", response.toString());
-                    if(TextUtils.isEmpty(response.toString()) || response.toString().length()<200){
+                    if (TextUtils.isEmpty(response.toString()) || response.toString().length() < 200) {
                         hidepDialog();
-                        Toast.makeText(getActivity(),"No data is available for the choosen crops: "+firstCompareItemName, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "No data is available for the choosen crops: " + firstCompareItemName, Toast.LENGTH_LONG).show();
                     }
 
                     try {
@@ -339,7 +347,7 @@ public class CompareActivity extends AppCompatActivity {
             AppController.getInstance().addToRequestQueue(jsonObjReq);
         }
 
-        private void loadSecondCompareItemList(String fullUrl){
+        private void loadSecondCompareItemList(String fullUrl) {
             showpDialog();
 
             Log.d("second compare url", fullUrl);
@@ -349,9 +357,9 @@ public class CompareActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     Log.d("CropStateYear response", response.toString());
-                    if(TextUtils.isEmpty(response.toString()) || response.toString().length()<200){
+                    if (TextUtils.isEmpty(response.toString()) || response.toString().length() < 200) {
                         hidepDialog();
-                        Toast.makeText(getActivity(),"No data is available for the choosen crops: "+secondCompareItemName, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "No data is available for the choosen crops: " + secondCompareItemName, Toast.LENGTH_LONG).show();
                     }
 
                     try {
@@ -409,7 +417,7 @@ public class CompareActivity extends AppCompatActivity {
             AppController.getInstance().addToRequestQueue(jsonObjReq);
         }
 
-        private void sprinnerInitilizer(){
+        private void sprinnerInitilizer() {
             //stateDataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.state_name));
             stateDataAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.state_name, android.R.layout.simple_spinner_item);
             stateDataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -438,7 +446,7 @@ public class CompareActivity extends AppCompatActivity {
             public int compare(Crop s1, Crop s2) {
                 int value1 = Integer.parseInt(s1.getYear());
                 int value2 = Integer.parseInt(s2.getYear());
-                return (value1<value2)?1:(value1>value2?-1:0);
+                return (value1 < value2) ? 1 : (value1 > value2 ? -1 : 0);
             }
         }
 
@@ -456,7 +464,7 @@ public class CompareActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == android.R.id.home){
+        if (id == android.R.id.home) {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);

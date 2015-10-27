@@ -1,7 +1,7 @@
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,35 +10,49 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:id="@+id/home_toolbar">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/home_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-        <Button
-            android:id="@+id/compareButton"
-            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primary_dark"
-            android:textColor="@color/textColorPrimary"
-            android:text="Compare"/>
-    </android.support.design.widget.AppBarLayout>
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/graphContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MergeRootFrame" />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+            <TextView
+                android:id="@+id/cropName"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:gravity="center"
+                android:text="Crop Name"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="20sp" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/graphContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MergeRootFrame" />
 
     </LinearLayout>
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/compareButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:layout_margin="16dp"
+        android:src="@mipmap/compare_button"
+        fab:fab_colorNormal="@color/primary"
+        fab:fab_colorPressed="@color/primary_dark" />
 
 </android.support.design.widget.CoordinatorLayout>

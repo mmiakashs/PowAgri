@@ -3,6 +3,7 @@ package com.omeletlab.powagri.util;
 /**
  * Created by akashs on 9/23/15.
  */
+
 import android.app.Application;
 import android.text.TextUtils;
 import android.util.Log;

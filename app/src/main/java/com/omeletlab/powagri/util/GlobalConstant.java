@@ -20,11 +20,11 @@ public class GlobalConstant {
     public static final String TAG_PASSWORD = "password";
 
     public static final String TAG_agg_level_desc = "agg_level_desc";
-    public static final String TAG_year = "year" ;
-    public static final String TAG_source_desc = "source_desc" ;
-    public static final String TAG_sector_desc = "sector_desc" ;
-    public static final String TAG_group_desc = "group_desc" ;
-    public static final String TAG_statisticcat_desc = "statisticcat_desc" ;
+    public static final String TAG_year = "year";
+    public static final String TAG_source_desc = "source_desc";
+    public static final String TAG_sector_desc = "sector_desc";
+    public static final String TAG_group_desc = "group_desc";
+    public static final String TAG_statisticcat_desc = "statisticcat_desc";
     public static final String TAG_reference_period_desc = "reference_period_desc";
     public static final String TAG_commodity_desc = "commodity_desc";
     public static final String TAG_state_name = "state_name";
@@ -43,7 +43,7 @@ public class GlobalConstant {
     public static final String TAG_STATE_NAME = "STATE_NAME";
     public static final String TAG_ANALYSIS_TYPE = "ANALYSIS_TYPE";
     public static final String TAG_YEAR = "year";
-    public static final String TAG_isShowLoadingDialog="isShowLoadingDialog";
+    public static final String TAG_isShowLoadingDialog = "isShowLoadingDialog";
 
     public static final String TAG_FIRST_COMPARE_ITEM = "FIRST_COMPARE_ITEM";
     public static final String TAG_SECOND_COMPARE_ITEM = "SECOND_COMPARE_ITEM";
@@ -58,35 +58,34 @@ public class GlobalConstant {
     public static final String NOT_LOGIN = "not_login";
 
 
-    public static String urlBuilder(String url, List<NameValuePair> params){
-        String fullUrl = url+"?";
+    public static String urlBuilder(String url, List<NameValuePair> params) {
+        String fullUrl = url + "?";
         boolean firstFlag = false;
-        for(NameValuePair item : params){
+        for (NameValuePair item : params) {
             String key = item.getName();
             String value = item.getValue();
-            value = value.replaceAll(" ","%20");
-            value = value.replaceAll("&","%26");
-            value = value.replaceAll(",","%2C");
+            value = value.replaceAll(" ", "%20");
+            value = value.replaceAll("&", "%26");
+            value = value.replaceAll(",", "%2C");
 
-            key = key.replaceAll(" ","%20");
-            key = key.replaceAll("&","%26");
-            key = key.replaceAll(",","%2C");
+            key = key.replaceAll(" ", "%20");
+            key = key.replaceAll("&", "%26");
+            key = key.replaceAll(",", "%2C");
 
-            if(value!=null){
-                if(firstFlag){
-                    fullUrl+="&"+key+"="+value;
-                }
-                else{
-                    firstFlag=true;
-                    fullUrl+=key+"="+value;
+            if (value != null) {
+                if (firstFlag) {
+                    fullUrl += "&" + key + "=" + value;
+                } else {
+                    firstFlag = true;
+                    fullUrl += key + "=" + value;
                 }
             }
         }
         return fullUrl;
     }
 
-    public static void showMessage(final Context context, final String message){
-        ((Activity)context).runOnUiThread(new Runnable() {
+    public static void showMessage(final Context context, final String message) {
+        ((Activity) context).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show();
@@ -94,19 +93,16 @@ public class GlobalConstant {
         });
     }
 
-    public static String getUnitsName(String statisticType){
-        if(statisticType.equals("AREA HARVESTED")){
+    public static String getUnitsName(String statisticType) {
+        if (statisticType.equals("AREA HARVESTED")) {
             return "ACRES";
-        }else if(statisticType.equals("AREA PLANTED")){
+        } else if (statisticType.equals("AREA PLANTED")) {
             return "ACRES";
-        }
-        else if(statisticType.equals("YIELD")){
+        } else if (statisticType.equals("YIELD")) {
             return "BU / ACRE";
-        }
-        else if(statisticType.equals("PRICE RECEIVED")){
+        } else if (statisticType.equals("PRICE RECEIVED")) {
             return "$ / BU";
-        }
-        else{
+        } else {
             return "";
         }
     }

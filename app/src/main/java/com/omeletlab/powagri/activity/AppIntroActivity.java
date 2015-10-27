@@ -4,8 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.View;
-import android.widget.Toast;
+
 import com.github.paolorotolo.appintro.AppIntro;
 import com.omeletlab.powagri.R;
 import com.omeletlab.powagri.fragment.AppIntroSlideFragment;
@@ -24,7 +23,7 @@ public class AppIntroActivity extends AppIntro {
         editor = preferences.edit();
         String appIntroStatus = preferences.getString(GlobalConstant.TAG_APP_INTRO, GlobalConstant.TAG_YES);
 
-        if(appIntroStatus.equals(GlobalConstant.TAG_NO)) {
+        if (appIntroStatus.equals(GlobalConstant.TAG_NO)) {
             loadMainActivity();
         }
 
@@ -35,7 +34,7 @@ public class AppIntroActivity extends AppIntro {
 
     }
 
-    private void loadMainActivity(){
+    private void loadMainActivity() {
         editor.putString(GlobalConstant.TAG_APP_INTRO, GlobalConstant.TAG_NO);
         editor.commit();
 
