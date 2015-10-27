@@ -30,7 +30,7 @@
 
     <!--  -->
     <string name="loading_crop_text">Loading power crops. Please wait...</string>
-    <string name="title_activity_app_intro">AppIntroActivity</string>
-    <string name="title_activity_expenses">ExpensesActivity</string>
+    <string name="title_activity_app_intro">PowAgri Intro</string>
+    <string name="title_activity_expenses">Expenses Analysis</string>
 
 </resources>

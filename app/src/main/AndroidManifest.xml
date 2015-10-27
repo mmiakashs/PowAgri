@@ -13,7 +13,8 @@
         android:theme="@style/MyMaterialTheme">
         <activity
             android:name=".activity.AppIntroActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,25 +23,32 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.CommonAnalysisListActivity"
-            android:label="@string/title_activity_crop_analysis"></activity>
+            android:label="@string/title_activity_crop_analysis"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.CropStateYearAnalysisActivity"
-            android:label="@string/year_based_fixed_state_crop_analysis"></activity>
+            android:label="@string/year_based_fixed_state_crop_analysis"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.CompareActivity"
-            android:label="@string/title_activity_compare"></activity>
+            android:label="@string/title_activity_compare"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.CompareSelectedCropActivity"
-            android:label="@string/title_activity_compare"></activity>
+            android:label="@string/title_activity_compare"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.SingleItemAnalysisActivity"
-            android:label="@string/title_activity_single_item_analysis"></activity>
+            android:label="@string/title_activity_single_item_analysis"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.ExpensesActivity"
-            android:label="@string/title_activity_expenses"></activity>
+            android:label="@string/title_activity_expenses"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -29,8 +29,11 @@ public class AppIntroActivity extends AppIntro {
 
         addSlide(AppIntroSlideFragment.newInstance(R.layout.app_intro_one));
         addSlide(AppIntroSlideFragment.newInstance(R.layout.app_intro_two));
-        addSlide(AppIntroSlideFragment.newInstance(R.layout.app_intro_one));
-        addSlide(AppIntroSlideFragment.newInstance(R.layout.app_intro_two));
+        addSlide(AppIntroSlideFragment.newInstance(R.layout.app_intro_three));
+        addSlide(AppIntroSlideFragment.newInstance(R.layout.app_intro_four));
+        addSlide(AppIntroSlideFragment.newInstance(R.layout.app_intro_five));
+        addSlide(AppIntroSlideFragment.newInstance(R.layout.app_intro_six));
+        addSlide(AppIntroSlideFragment.newInstance(R.layout.app_intro_seven));
 
     }
 
