@@ -55,7 +55,7 @@ public class SingleItemAnalysisActivity extends AppCompatActivity {
             analysisTypeTextView.setText(stateName + "'s Power Crops");
             Snackbar.make(parentLayout, stateName + "'s Power Crops", Snackbar.LENGTH_LONG).show();
         } else {
-            analysisTypeTextView.setText(cropName + "' Productive States");
+            analysisTypeTextView.setText(cropName + " Productive States");
             Snackbar.make(parentLayout, cropName + " Productive States", Snackbar.LENGTH_LONG).show();
         }
 

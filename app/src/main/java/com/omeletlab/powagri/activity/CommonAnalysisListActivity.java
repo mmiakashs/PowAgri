@@ -66,7 +66,7 @@ public class CommonAnalysisListActivity extends AppCompatActivity {
         bundle.putString(GlobalConstant.TAG_ANALYSIS_TYPE, "YIELD");
         bundle.putString(GlobalConstant.TAG_STATE_NAME, stateName);
         bundle.putString(GlobalConstant.TAG_CROP_NAME, cropName);
-        bundle.putString(GlobalConstant.TAG_isShowLoadingDialog, GlobalConstant.TAG_YES);
+        bundle.putString(GlobalConstant.TAG_isShowLoadingDialog, GlobalConstant.TAG_NO);
         Fragment fragmentYield = new CommonCropsCardListFragment();
         fragmentYield.setArguments(bundle);
         adapter.addFragment(fragmentYield, "Yield");
